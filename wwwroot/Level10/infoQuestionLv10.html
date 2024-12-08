@@ -1,0 +1,448 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 10 - שאלות</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        #questionsContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px;
+            color: #333;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            #exerciseInfo p {
+                font-size: 20px;
+                color: #525252;
+                font-weight: bold;
+                margin-right: 10px;
+                margin-top: 15px;
+                font-weight: 400;
+            }
+
+            #exerciseInfo img {
+                width: 50px;
+            }
+
+        h2 {
+            color: #5BBCBF;
+            font-weight: bold;
+        }
+
+        h3 {
+            color: #5BBCBF;
+            font-weight: bold;
+        }
+
+        .boldInst {
+            font-weight: bold;
+        }
+
+        .colored {
+            color: #5BBCBF;
+            font-weight: bold;
+            direction: ltr;
+            text-align: left;
+        }
+
+        #exerciseInfo p {
+            text-align: center;
+        }
+
+        .btn-primary, .help-btn, #checkAnswerBtn, #nextQuestionBtn, #goToPrototypeBtn {
+            background-color: #F3C545 !important;
+            border-color: #F3C545 !important;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-size: 16px;
+            color: black !important;
+            margin-top: 20px;
+        }
+
+            .btn-primary:hover, .help-btn:hover, #checkAnswerBtn:hover, #nextQuestionBtn:hover, #goToPrototypeBtn:hover {
+                background-color: #e6b93c !important;
+                border-color: #e6b93c !important;
+            }
+
+            #checkAnswerBtn:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+        .question {
+            display: none;
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%; /* Adjusted to fit the table */
+            text-align: center;
+        }
+
+            .question.active {
+                display: block;
+            }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            text-align: right;
+        }
+
+        .correct-feedback {
+            color: green;
+        }
+
+        .incorrect-feedback {
+            color: red;
+        }
+
+        .feedback-icon {
+            margin-left: 10px;
+            font-size: 24px;
+        }
+
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .help-btn:hover {
+                background-color: #218838;
+            }
+
+        .scrolling-list {
+            margin: 0 5px;
+        }
+
+        .question-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            direction: ltr;
+        }
+
+            .question-table th, .question-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                background-color: white;
+            }
+
+            .question-table th {
+                background-color: #fdcc3ad6;
+                text-align: center;
+            }
+
+            .question-table td {
+                text-align: left;
+            }
+
+            .question-table input, .question-table select {
+                text-align: center;
+                padding: 5px;
+                width: auto;
+            }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <img src="/img/hook.png" alt="Hook">
+        <p>עכשיו נענה על שאלות. בסיום שלב השאלות נתחיל לתכנת</p>
+    </div>
+
+    <div id="questionsContainer">
+        <div class="question active">
+            <h5>
+                בואו נשתמש יחד בפקודת format. הסתכלו בקוד והשלימו את התוצאה שנקבל בהדפסה
+            </h5>
+            <br />
+            <table class="question-table">
+                <tr>
+                    <th>Main</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>name = "Dor"
+age = 12
+string = "My name is {} and I am {} years old".format(name,age)</pre>
+                        
+                        <pre>print(string)</pre>
+                    </td>
+                    <td>
+                        <div>
+                            My name is <select class="scrolling-list" id="q1resulta">
+                                <option value="">בחר</option>
+                                <option value="Dor">Dor</option>
+                                <option value="12">12</option>
+                            </select> and I am <select class="scrolling-list" id="q1resultb">
+                                <option value="">בחר</option>
+                                <option value="Dor">Dor</option>
+                                <option value="12">12</option>
+                            </select> years old.
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="feedback" id="feedback1"></div>
+            <!--<button class="help-btn" title="בחרו את התשובות הנכונות מהרשימה הנפתחת.">עזרה</button>-->
+        </div>
+        <div class="question">
+            <h5>
+                הסתכלו על הקוד הבא והשלימו את הקוד.
+            </h5>
+            <br />
+            <table class="question-table">
+                <tr>
+                    <th>Main</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>name = "Dor"
+age = 12
+string = "My name is {} and I am {} years old"</pre>
+                        <select class="scrolling-list" id="q2a">
+                            <option value="">בחר</option>
+                            <option value=".format">.format</option>
+                            <option value="name">name</option>
+                            <option value="age">age</option>
+                        </select>(
+                        <select class="scrolling-list" id="q2b">
+                            <option value="">בחר</option>
+                            <option value=".format">.format</option>
+                            <option value="name">name</option>
+                            <option value="age">age</option>
+                        </select>,
+                        <select class="scrolling-list" id="q2c">
+                            <option value="">בחר</option>
+                            <option value=".format">.format</option>
+                            <option value="name">name</option>
+                            <option value="age">age</option>
+                        </select>)
+                        <pre>print(string)</pre>
+                    </td>
+                    <td>
+                        My name is Dor and I am 12 years old.
+                    </td>
+                </tr>
+            </table>
+            <div class="feedback" id="feedback2"></div>
+            <!--<button class="help-btn" title="השלימו את הקוד עם התשובות הנכונות מהרשימה הנפתחת.">עזרה</button>-->
+        </div>
+        <button id="checkAnswerBtn" disabled>בדקו תשובה</button>
+        <button id="nextQuestionBtn" style="display: none;">לשאלה הבאה</button>
+        <button id="goToPrototypeBtn" style="display: none;">בואו נתחיל לתכנת</button>
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const checkAnswerButton = document.getElementById('checkAnswerBtn');
+            const nextButton = document.getElementById('nextQuestionBtn');
+            const goToPrototypeButton = document.getElementById('goToPrototypeBtn');
+            const islandName = 'Island 10';
+            const maxScore = 60; // Max score for this section
+            let currentScore = maxScore;
+            let currentQuestion = 0;
+
+            const answers = [
+                {
+                    question: 0,
+                    correct: ['Dor', '12'],
+                    correctFeedback: '✔️ כל הכבוד. התוכן אותו נרצה להכניס למחרוזת יוחלף בסוגריים המסולסלים לפי הסדר שכתבנו את אותו בסוגריים העגולים של הפקודה.',
+                    wrongFeedback: '❌ כמעט ! התוכן אותו נרצה להכניס למחרוזת יוחלף בסוגריים המסולסלים לפי הסדר שכתבנו את אותו בסוגריים העגולים של הפקודה.'
+                },
+                {
+                    question: 1,
+                    correct: ['.format', 'name', 'age'],
+                    correctFeedback: '✔️ נכון מאוד! השימוש הנכון בפקודת format הוא .format(name, age).',
+                    wrongFeedback: '❌ לא נכון. השימוש הנכון בפקודת format הוא .format(name, age).'
+                }
+            ];
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.classList.toggle('active', i === index);
+                });
+            }
+
+            function showHelpText(event) {
+                const helpText = event.target.getAttribute('title');
+                if (helpText) {
+                    const helpBox = document.createElement('div');
+                    helpBox.classList.add('help-box');
+                    helpBox.textContent = helpText;
+                    event.target.parentNode.insertBefore(helpBox, event.target.nextSibling);
+                    setTimeout(() => {
+                        helpBox.remove();
+                    }, 3000); // Remove the help box after 3 seconds
+                }
+            }
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = maxScore / answers.length;
+                    currentScore -= penalty;
+                }
+                const levelKey = `${islandName}ScoreAmerican`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            // Adding event listeners to "Help" buttons
+            const helpButtons = document.querySelectorAll('.help-btn');
+            helpButtons.forEach(button => {
+                button.addEventListener('click', showHelpText);
+            });
+
+            function checkAnswers() {
+                const currentQuestionElement = questions[currentQuestion];
+                let isCorrect = false;
+                let feedback = '';
+
+                if (currentQuestion === 0) {
+                    const userAnswers = [
+                        document.getElementById('q1resulta').value,
+                        document.getElementById('q1resultb').value
+                    ];
+                    isCorrect = answers[currentQuestion].correct.every((val, index) => val === userAnswers[index]);
+                    feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+                } else {
+                    const userAnswers = [
+                        document.getElementById('q2a').value,
+                        document.getElementById('q2b').value,
+                        document.getElementById('q2c').value
+                    ];
+                    isCorrect = answers[currentQuestion].correct.every((val, index) => val === userAnswers[index]);
+                    feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+                }
+
+                const feedbackElement = document.getElementById(`feedback${currentQuestion + 1}`);
+                feedbackElement.innerHTML = feedback;
+                feedbackElement.classList.remove('correct-feedback', 'incorrect-feedback');
+                feedbackElement.classList.add(isCorrect ? 'correct-feedback' : 'incorrect-feedback');
+
+                return isCorrect;
+            }
+
+            function updateCheckAnswerButtonState() {
+                const currentQuestionElement = questions[currentQuestion];
+                let isAnswered = false;
+
+                if (currentQuestion === 0) {
+                    const userAnswers = [
+                        document.getElementById('q1resulta').value,
+                        document.getElementById('q1resultb').value
+                    ];
+                    isAnswered = userAnswers.every(val => val !== '');
+                } else {
+                    const userAnswers = [
+                        document.getElementById('q2a').value,
+                        document.getElementById('q2b').value,
+                        document.getElementById('q2c').value
+                    ];
+                    isAnswered = userAnswers.every(val => val !== '');
+                }
+
+                checkAnswerButton.disabled = !isAnswered;
+            }
+
+            document.querySelectorAll('.scrolling-list').forEach(select => {
+                select.addEventListener('change', updateCheckAnswerButtonState);
+            });
+
+            checkAnswerButton.addEventListener('click', () => {
+                const isCorrect = checkAnswers();
+                updateScore(isCorrect);
+
+                checkAnswerButton.style.display = 'none';
+
+                if (currentQuestion < questions.length - 1) {
+                    nextButton.style.display = 'inline-block';
+                } else {
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    checkAnswerButton.style.display = 'inline-block';
+                    checkAnswerButton.disabled = true;
+                    nextButton.style.display = 'none';
+                }
+            });
+
+            showQuestion(currentQuestion);
+
+            goToPrototypeButton.addEventListener('click', () => {
+                window.location.href = 'prototypeLv10.html';
+            });
+        });
+    </script>
+</body>
+</html>

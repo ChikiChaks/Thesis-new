@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 1 - שאלות</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="" />
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+            color: #333;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            #exerciseInfo p {
+                font-size: 20px;
+                color: #525252;
+                font-weight: bold;
+                margin-right: 10px;
+                margin-top: 15px;
+                font-weight: 400;
+            }
+
+            #exerciseInfo img {
+                width: 50px;
+            }
+
+        #questionsContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        h2, h3 {
+            color: #5BBCBF;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #questionsContainer p {
+            text-align: center;
+        }
+
+        .btn-primary, .help-btn, #checkAnswerBtn, #nextQuestionBtn, #goToPrototypeBtn {
+            background-color: #F3C545 !important;
+            border-color: #F3C545 !important;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-size: 16px;
+            color: black !important;
+            margin-top: 20px;
+        }
+
+            .btn-primary:hover, .help-btn:hover, #checkAnswerBtn:hover, #nextQuestionBtn:hover, #goToPrototypeBtn:hover {
+                background-color: #e6b93c !important;
+                border-color: #e6b93c !important;
+            }
+
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #checkAnswerBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .question {
+            display: none;
+        }
+
+            .question.active {
+                display: block;
+            }
+
+        .feedback {
+            color: red;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .correct-feedback {
+            color: green;
+            display: flex;
+            align-items: center;
+        }
+
+        .incorrect-feedback {
+            color: red;
+            display: flex;
+            align-items: center;
+        }
+
+        .feedback-icon {
+            margin-right: 5px;
+        }
+
+        .draggable {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .droppable {
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            margin: 5px;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .output-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .output-table td {
+                border: 1px solid #5BBCBF;
+                padding: 8px;
+                text-align: center;
+                font-weight: bold;
+                color: #5BBCBF;
+            }
+
+        .first-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+            .first-question h3 {
+                font-size: 18px;
+                color: #525252;
+                font-weight: 400;
+            }
+
+            .first-question h2 {
+                font-size: 30px;
+                color: #5BBCBF;
+                text-align: center;
+                direction: ltr;
+                margin-bottom: 25px;
+                margin-top: 25px;
+            }
+
+            .first-question input[type="text"] {
+                padding: 10px;
+                font-size: 18px;
+                border: 2px solid #525252;
+                border-radius: 5px;
+                margin-top: 10px;
+                margin-right: 10px;
+            }
+
+            .first-question .feedback {
+                font-size: 18px;
+            }
+
+        .hook-image {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 50px;
+        }
+
+        .feedback {
+            margin-top: 20px;
+        }
+
+        .correct-feedback span.feedback-icon,
+        .incorrect-feedback span.feedback-icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        /* Styles for the multiple-choice questions */
+        .multiple-choice-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 700px;
+            text-align: center;
+        }
+
+            .multiple-choice-question h3 {
+                font-size: 18px;
+                color: #525252;
+                font-weight: 400;
+                text-align: center;
+            }
+
+            .multiple-choice-question input[type="checkbox"] {
+                display: none;
+            }
+
+            .multiple-choice-question label {
+                display: flex;
+                align-items: center;
+                text-align: right; /* Align text to the right */
+                padding: 10px;
+                border: 3px solid #525252;
+                border-radius: 20px;
+                margin-top: 10px;
+                cursor: pointer;
+                position: relative;
+                width: 350px;
+                margin: 0 auto;
+                background-color: white;
+            }
+
+            .multiple-choice-question input[type="checkbox"]:checked + label {
+                border-color: #F3C545;
+                background-color: white;
+            }
+
+            .multiple-choice-question .checkmark {
+                display: none;
+                font-size: 20px;
+                margin-left: 10px; /* Adjust margin to move the checkmark */
+            }
+
+            .multiple-choice-question label.correct .checkmark {
+                display: inline;
+                color: green;
+            }
+
+            .multiple-choice-question label.incorrect .checkmark {
+                display: inline;
+                color: red;
+            }
+
+            .multiple-choice-question .feedback {
+                font-size: 18px;
+            }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <img src="/img/hook.png" alt="Hook">
+        <p>עכשיו נענה על שאלות. בסיום שלב השאלות נתחיל לתכנת</p>
+    </div>
+
+    <div id="questionsContainer">
+        <!-- New Question -->
+        <div class="question active first-question">
+            <h3>הסתכלו בשורת הקוד הבאה וחשבו מה התוצאה אותה נקבל בהדפסה של השורה?</h3>
+            <h2>print "Hello world!"</h2>
+            <div style="text-align: center;">
+                <span>כתבו את התשובה המתאימה</span>
+                <input style="direction:ltr;" type="text" id="q0" name="q0">
+            </div>
+            <div class="feedback" id="feedback0"></div>
+            <!--<button class="help-btn" title="נכון ! הפקודה print מדפיסה את התוכן למסך בדיוק כמו שנכתב. שימו לב - כשרוצה להדפיס למסר מסוג מתוחם (טקסט) נעטוף את המידע במרכאות ״ " ="">רמז</button>-->
+        </div>
+        <div class="question multiple-choice-question">
+            <h3>מה נוכל לעשות באמצעות ספריית turtle ?</h3>
+            <p>שימו לב כי יש יותר מתשובה אחת נכונה</p>
+            <div>
+                <input type="checkbox" id="q1a" name="q1" value="colors">
+                <label for="q1a">
+                    <span class="checkmark"></span>
+                    ליצור צבעים
+                </label><br>
+                <input type="checkbox" id="q1b" name="q1" value="movement">
+                <label for="q1b">
+                    <span class="checkmark"></span>
+                    להזיז את הדמויות
+                </label><br>
+                <input type="checkbox" id="q1c" name="q1" value="points">
+                <label for="q1c">
+                    <span class="checkmark"></span>
+                    ליצור דמות
+                </label><br>
+            </div>
+            <div class="feedback" id="feedback1"></div>
+            <!--<button class="help-btn" title="נשתמש בתכונות אלו לפרויקט שלנו">רמז</button>-->
+        </div>
+        <div class="question multiple-choice-question">
+            <h3>מה נוכל לעשות באמצעות ספריית random ?</h3>
+            <p>שימו לב כי יש יותר מתשובה אחת נכונה</p>
+            <div>
+                <input type="checkbox" id="q2a" name="q2" value="character">
+                <label for="q2a">
+                    <span class="checkmark"></span>
+                    להגריל מיקום דמות בצורה רנדומלית
+                </label><br>
+                <input type="checkbox" id="q2b" name="q2" value="numbers">
+                <label for="q2b">
+                    <span class="checkmark"></span>
+                    לקבל מספרים בצורה רנדומלית
+                </label><br>
+                <input type="checkbox" id="q2c" name="q2" value="bigsmall">
+                <label for="q2c">
+                    <span class="checkmark"></span>
+                    להציג מספרים לפי סדר עולה מהקטן אל הגדול
+                </label><br>
+            </div>
+            <div class="feedback" id="feedback2"></div>
+            <!--<button class="help-btn" title="רק 2 מהתשובות נכונות">רמז</button>-->
+        </div>
+        <button id="checkAnswerBtn" disabled>בדקו תשובה</button>
+        <button id="nextQuestionBtn" style="display: none;">שאלה הבאה</button>
+        <button id="goToPrototypeBtn" style="display: none;">בואו נתחיל לתכנת</button>
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        checkLoginStatus();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const checkAnswerButton = document.getElementById('checkAnswerBtn');
+            const nextQuestionButton = document.getElementById('nextQuestionBtn');
+            const goToPrototypeButton = document.getElementById('goToPrototypeBtn');
+            const islandName = 'Island 1';
+            const maxScore = 60;
+            let currentScore = maxScore;
+            let currentQuestion = 0;
+
+            const answers = [
+                {
+                    question: 0,
+                    correct: 'Hello world!',
+                    correctFeedback: 'נכון מאוד! הפקודה print מדפיסה את התוכן למסך בדיוק כפי שנכתב.',
+                    wrongFeedback: 'אופס טעות. הפקודה print מדפיסה את התוכן למסך בדיוק כפי שנכתב.'
+                },
+                {
+                    question: 1,
+                    correct: ['colors', 'movement', 'points'],
+                    correctFeedback: 'יפה מאוד! ספריית turtle מאפשרת לנו לעשות הרבה דברים מגניבים על המסך כמו ליצור צבעים, להזיז דמויות ולהציג את הניקוד. בפרויקט שלנו, נשתמש בה כדי להזיז את הדמות ולהציג את הניקוד על גבי המסך.',
+                    wrongFeedback: 'לא בדיוק. ספריית turtle מאפשרת לנו לעשות הרבה דברים מגניבים על המסך כמו ליצור צבעים, להזיז דמויות ולהציג את הניקוד. בפרויקט שלנו, נשתמש בה כדי להזיז את הדמות ולהציג את הניקוד על גבי המסך.'
+                },
+                {
+                    question: 2,
+                    correct: ['character', 'numbers'],
+                    correctFeedback: 'כל הכבוד ! שימוש בספרית random מאפשרת לנו לעשות דברים בצורה אקראית. בפרויקט שלנו, נשתמש בה כדי להגריל את מיקום הכוכבים בצורה רנדומלית.',
+                    wrongFeedback: 'נכון. שימוש בספרית random מאפשרת לנו לעשות דברים בצורה אקראית. בפרויקט שלנו, נשתמש בה כדי להגריל את מיקום הכוכבים בצורה רנדומלית.'
+                }
+            ];
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.classList.toggle('active', i === index);
+                });
+            }
+
+            function showHelpText(event) {
+                const helpText = event.target.getAttribute('title');
+                if (helpText) {
+                    const helpBox = document.createElement('div');
+                    helpBox.classList.add('help-box');
+                    helpBox.textContent = helpText;
+                    event.target.parentNode.insertBefore(helpBox, event.target.nextSibling);
+                    setTimeout(() => {
+                        helpBox.remove();
+                    }, 3000);
+                }
+            }
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = maxScore / answers.length;
+                    currentScore -= penalty;
+                }
+                const levelKey = `${islandName}ScoreAmerican`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            const helpButtons = document.querySelectorAll('.help-btn');
+            helpButtons.forEach(button => {
+                button.addEventListener('click', showHelpText);
+            });
+
+            function checkAnswers() {
+                const currentQuestionElement = questions[currentQuestion];
+                let isCorrect = false;
+
+                if (currentQuestion === 0) {
+                    const inputAnswer = currentQuestionElement.querySelector('input[type="text"]').value.trim();
+                    isCorrect = inputAnswer === answers[currentQuestion].correct;
+                } else {
+                    const selectedAnswers = currentQuestionElement.querySelectorAll('input[type="checkbox"]:checked');
+                    const correctAnswers = answers[currentQuestion].correct;
+                    isCorrect = Array.from(selectedAnswers).every(answer => correctAnswers.includes(answer.value)) && selectedAnswers.length === correctAnswers.length;
+                }
+
+                return isCorrect;
+            }
+
+            function updateButtonState() {
+                const currentQuestionElement = questions[currentQuestion];
+                let isAnswered = false;
+
+                if (currentQuestion === 0) {
+                    const inputAnswer = currentQuestionElement.querySelector('input[type="text"]').value.trim();
+                    isAnswered = inputAnswer.length > 0;
+                } else {
+                    const selectedAnswers = currentQuestionElement.querySelectorAll('input[type="checkbox"]:checked');
+                    isAnswered = selectedAnswers.length > 0;
+                }
+
+                checkAnswerButton.disabled = !isAnswered;
+            }
+
+            questions.forEach(question => {
+                const inputs = question.querySelectorAll('input[type="text"], input[type="checkbox"]');
+                inputs.forEach(input => {
+                    input.addEventListener('input', updateButtonState);
+                    input.addEventListener('change', updateButtonState);
+                });
+            });
+
+            checkAnswerButton.addEventListener('click', () => {
+                const isCorrect = checkAnswers();
+                const feedbackElement = document.getElementById(`feedback${currentQuestion}`);
+                const checkboxes = questions[currentQuestion].querySelectorAll('input[type="checkbox"]');
+
+                checkboxes.forEach(checkbox => {
+                    const label = checkbox.nextElementSibling;
+                    const checkmark = label.querySelector('.checkmark');
+                    if (answers[currentQuestion].correct.includes(checkbox.value)) {
+                        if (checkbox.checked) {
+                            label.classList.add('correct');
+                            checkmark.textContent = '✔️';
+                        } else {
+                            label.classList.add('incorrect');
+                            checkmark.textContent = '❌';
+                        }
+                    } else if (checkbox.checked) {
+                        label.classList.add('incorrect');
+                        checkmark.textContent = '❌';
+                    }
+                });
+
+                feedbackElement.innerHTML = isCorrect
+                    ? `<div class="correct-feedback"><span class="feedback-icon">✔️</span>${answers[currentQuestion].correctFeedback}</div>`
+                    : `<div class="incorrect-feedback"><span class="feedback-icon">❌</span>${answers[currentQuestion].wrongFeedback}</div>`;
+
+                updateScore(isCorrect);
+
+                checkAnswerButton.style.display = 'none';
+
+                if (currentQuestion < questions.length - 1) {
+                    nextQuestionButton.style.display = 'inline-block';
+                } else {
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            nextQuestionButton.addEventListener('click', () => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    checkAnswerButton.style.display = 'inline-block';
+                    checkAnswerButton.disabled = true;
+                    nextQuestionButton.style.display = 'none';
+                }
+            });
+
+            showQuestion(currentQuestion);
+
+            goToPrototypeButton.addEventListener('click', () => {
+                window.location.href = 'prototype.html';
+            });
+        });
+    </script>
+</body>
+</html>

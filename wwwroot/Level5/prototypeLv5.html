@@ -1,0 +1,832 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 5 - תכנות</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="../css/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/javascript.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        #mainContainer {
+            display: flex;
+            flex-direction: row;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        #iframe {
+            flex-grow: 1;
+            margin-right: 20px;
+        }
+
+        #instructions {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 300px;
+            max-width: 300px;
+            direction: rtl;
+            background-color: #fcf7ed;
+            border-radius: 8px;
+            position: relative;
+            height: 480px;
+            margin-top: 10px;
+        } 
+
+            #instructions h2 {
+                color: #F3C545;
+            }
+
+            #instructions p {
+                margin-top: 10px;
+                direction: rtl;
+                text-align: right;
+            }
+
+        .instruction-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+            .instruction-navigation button {
+                padding: 5px;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                font-size: 20px;
+                color: #F3C545;
+            }
+
+                .instruction-navigation button:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+
+            .instruction-navigation .arrow {
+                display: inline-block;
+                padding: 1px 6px;
+                border-radius: 50%;
+                background-color: #F3C545;
+                color: white;
+            }
+
+                .instruction-navigation .arrow:disabled {
+                    background-color: #d3d3d3;
+                }
+
+        .custom-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: white;
+            color: #212529;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 130px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: 60px;
+        }
+
+            .custom-button img {
+                width: 30px;
+                height: 30px;
+                margin-left: 10px;
+            }
+
+        .top-button {
+            display: flex;
+            align-items: center;
+            /* padding: 5px 10px; */
+            background-color: #5bbcbf;
+            color: white;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 10px;
+            height: 40px;
+            width: 150px;
+            font-weight: 600;
+        }
+
+            .top-button img {
+                width: 50px;
+                height: 70px;
+            }
+
+        .check-button {
+            background-color: #F3C545;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+            .check-button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                background-color: #8f8e8a;
+                color: black;
+            }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            bottom:100px;
+            background-color: #FDFDF8;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            direction: rtl;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        #answerCheck {
+            position: relative;
+            background-color: #fcf7ed;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 1200px;
+            margin: 10px auto;
+            text-align: right;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: grid;
+            direction: rtl;
+            grid-template-columns: 820px 1fr;
+            grid-template-rows: auto;
+            gap: 15px;
+            width: 1200px;
+        }
+
+        .content {
+            margin-left: 50px;
+        }
+
+        #answerCheck h2 {
+            color: #F3C545;
+            font-size: 24px;
+            margin-bottom: 20px;
+            grid-area: header;
+        }
+
+        #answerCheck p {
+            font-size: 16px;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 10px;
+            grid-area: header;
+        }
+
+        #openModalButton {
+            grid-area: parrot;
+            align-self: start;
+        }
+
+        #answerCheck label {
+            grid-area: label;
+            text-align: left;
+            align-self: center;
+        }
+
+        #answerCheck input[type="text"] {
+            grid-area: input;
+            padding: 5px;
+            width: 100%;
+            margin-top: 25px;
+        }
+
+
+        #openModalButton {
+            position: absolute;
+            left: 0px;
+            top: -10px;
+        }
+
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 5px;
+            left: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+            }
+
+        .stars {
+            text-align: center;
+            font-size: 2em;
+            color: gold;
+        }
+
+        .home-button {
+            display: block;
+            margin: 20px auto 0 auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: black;
+            background-color: #F3C545;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+        }
+
+            .home-button:hover {
+                background-color: #e6b93c;
+            }
+
+        #pythonCode {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        #gptModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+            #gptModal .modal-content {
+                background-color: #fcf7ed;
+                margin: 5% auto;
+                padding: 20px;
+                border-radius: 12px;
+                width: 80%;
+                max-width: 600px;
+                direction: rtl;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                position: relative;
+            }
+
+                #gptModal .modal-content h2 {
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin: 0;
+                }
+
+                    #gptModal .modal-content h2 img {
+                        width: 50px;
+                        height: 70px;
+                    }
+
+                #gptModal .modal-content textarea {
+                    width: 100%;
+                    padding: 15px;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    margin-top: 20px;
+                    box-sizing: border-box;
+                    text-align: left;
+                    direction: ltr;
+                }
+
+                #gptModal .modal-content button#sendToChatGPT {
+                    background-color: #F3C545;
+                    color: black;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    font-size: 16px;
+                    align-self: center;
+                }
+
+                #gptModal .modal-content .close {
+                    position: absolute;
+                    top: 10px;
+                    left: 20px;
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: #aaa;
+                    cursor: pointer;
+                }
+
+                    #gptModal .modal-content .close:hover,
+                    #gptModal .modal-content .close:focus {
+                        color: black;
+                    }
+
+            #gptModal #chatGPTOutput {
+                margin-top: 20px;
+                background: #f4f4f4;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                text-align: left;
+                white-space: pre-wrap;
+            }
+        .home-button2 {
+            display: block;
+            margin: 20px auto 0 auto;
+            margin-right: 60px;
+            padding: 5px 10px;
+            font-size: 12pt;
+            color: black;
+            background-color: #ffcc3d8f;
+            border-radius: 50px;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+            font-size: 12px;
+        }
+
+            .home-button2:hover {
+                background-color: #e6b93c;
+            }
+    </style>
+</head>
+<body>
+
+    <div id="mainContainer">
+        <div id="iframe">
+            <iframe src="https://trinket.io/embed/python/bfb11ca13f" width="900" height="480" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+        </div>
+        <div id="instructions">
+            <h2>הוראות</h2>
+            <p style="padding-bottom:10px; border-bottom: 2px solid orange;">עקבו אחרי ההוראות לכתיבת הקוד ובסיום ענו על השאלה</p>
+            <div class="instruction-navigation">
+                <button id="prevInstruction" class="arrow" disabled>→</button>
+                <span style="font-size:13px;" id="instructionCounter">1/6</span>
+                <button id="nextInstruction" class="arrow">←</button>
+            </div>
+            <p id="instructionText">הוראה ראשונה גלה גלה</p>
+            <p style="font-weight:bold; color:red; position:absolute; bottom:110px;">שימו לב! יש לעבור על כל ההוראות כדי ללחוץ על כפתור בדיקה</p>
+            <button class="custom-button" id="showCodeButton">
+                <img src="/img/Safe.png" alt="Safe">
+                גלגל הצלה
+            </button>
+        </div>
+    </div>
+
+    <div id="answerCheck">
+        <div class="header">
+            <h2>שאלת סיכום</h2>
+            <p>ענו על השאלה בסיום כל ההוראות</p>
+            <p>
+                לפני התנאי שכתבנו בפונקציית moveUp  - מהי הנקודה <br />על ציר ה-y אותה לא יכולה הספינה לעבור ?
+            </p>
+        </div>
+        <div class="content">
+            <button class="top-button" id="openModalButton">
+                <img src="/img/Parrot.png" alt="Parrot">
+                צריכים עזרה?
+            </button>
+            <input type="text" id="userAnswer" name="userAnswer" oninput="toggleCheckButton()">
+            <button class="check-button" id="checkButton" disabled style="display: inline-block; margin-left: 10px;">בדיקה</button>
+            <button class="home-button2" style="display: inline-block;" onclick="window.location.href='/homepage.html';">חזרה לדף הבית</button>
+        </div>
+    </div>
+
+
+    <div id="gptModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>
+                <img src="/img/Parrot.png" alt="Parrot">הסתבכתם בכתיבת הקוד? הדביקו את הקוד ואנסה לתקן אותו
+            </h2>
+            <textarea id="chatGPTInput" rows="10" style="width: 100%;"></textarea>
+            <button id="sendToChatGPT">בדיקת קוד</button>
+            <pre id="chatGPTOutput" style="margin-top: 20px; background: #f4f4f4; padding: 10px; border: 1px solid #ddd;"></pre>
+        </div>
+    </div>
+
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="feedbackClose">&times;</span>
+            <h2 id="feedbackTitle">תוצאה</h2>
+            <p id="feedbackMessage"></p>
+            <div id="starRating" class="stars"></div>
+            <button class="home-button">חזרה לדף הבית</button>
+        </div>
+    </div>
+
+    <div id="codeModal" class="modal">
+        <div class="modal-content">
+            <span class="close code-close">&times;</span>
+            <h2>Python Code</h2>
+            <pre id="pythonCode" style="direction:ltr; text-align:left; background: #f4f4f4; direction:ltr; padding: 10px; border: 1px solid #ddd; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">
+            </pre>
+        </div>
+    </div>
+
+    <script>
+
+        const instructionsViewed = new Array(6).fill(false); 
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        function toggleCheckButton() {
+            const userAnswer = document.getElementById('userAnswer').value.trim();
+            const allInstructionsViewed = instructionsViewed.every(viewed => viewed); // Check if all instructions have been viewed
+            const checkButton = document.getElementById('checkButton');
+            // Enable the button only if the text box is filled and all instructions have been viewed
+            checkButton.disabled = !(userAnswer !== '' && allInstructionsViewed);
+        }
+
+        $(document).ready(function () {
+            const modal = document.getElementById("gptModal");
+            const codeModal = document.getElementById("codeModal");
+            const btn = document.getElementById("openModalButton");
+            const showCodeButton = document.getElementById("showCodeButton");
+            const span = document.getElementsByClassName("close");
+            const feedbackModal = document.getElementById("feedbackModal");
+            const feedbackClose = document.getElementById("feedbackClose");
+            const feedbackMessage = document.getElementById("feedbackMessage");
+            const feedbackTitle = document.getElementById("feedbackTitle");
+            const starRating = document.getElementById("starRating");
+
+            const maxScore = 40;
+            const minScore = 10;
+            let currentScore = maxScore;
+            const islandName = 'Island 5';
+            const correctAnswer = '200';
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = 11;
+                    currentScore = Math.max(minScore, currentScore - penalty);
+                }
+                console.log(`Updated score: ${currentScore}`);
+                const levelKey = `${islandName}ScoreCoding`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            function getTotalScore() {
+                const americanQuestionScore = parseInt(localStorage.getItem('Island 5ScoreAmerican')) || 0;
+                const codingChallengeScore = parseInt(localStorage.getItem('Island 5ScoreCoding')) || 0;
+                return americanQuestionScore + codingChallengeScore;
+            }
+
+            function showStarRating(score) {
+                let stars = 0;
+                let feedbackText = '';
+                if (score >= 90) {
+                    stars = 3;
+                    feedbackText = 'כבשתם את האי והרווחתם 3 שקי זהב';
+                } else if (score >= 60) {
+                    stars = 2;
+                    feedbackText = 'כבשתם את האי והרווחתם 2 שקי זהב';
+                } else if (score >= 30) {
+                    stars = 1;
+                    feedbackText = 'כבשתם את האי והרווחתם שק זהב';
+                } else {
+                    feedbackTitle.textContent = 'אופס טעות';
+                    feedbackText = 'תשובה שגויה. נסה שוב.';
+                    starRating.innerHTML = ''; // No gold sacks for incorrect answers
+                    feedbackMessage.textContent = feedbackText;
+                    return; // Exit the function early
+                }
+
+                feedbackTitle.textContent = 'כל הכבוד!';
+                starRating.innerHTML = '<img src="/img/GoldSackV1.png" alt="Gold Sack" style="width:50px; padding:7px;" class="gold-sack">'.repeat(stars);
+                feedbackMessage.textContent = feedbackText;
+                console.log(`Star rating: ${stars} stars for score: ${score}`);
+
+                saveProgress(stars);
+            }
+
+            $("#sendToChatGPT").click(function () {
+                const codeInput = $("#chatGPTInput").val();
+
+                axios.post('/api/SyntaxCorrection/FixPythonSyntax', {
+                    code: codeInput
+                })
+                    .then(response => {
+                        const chatGPTResponse = response.data.correctedCode;
+                        $("#chatGPTOutput").text(chatGPTResponse);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        if (error.response) {
+                            alert(`Error: ${error.response.data}`);
+                        } else if (error.request) {
+                            alert('Error: No response received from the server.');
+                        } else {
+                            alert('Error: ' + error.message);
+                        }
+                    });
+            });
+
+            function saveProgress(stars) {
+                axios.post('/api/user/updateProgress', {
+                    level: 5,
+                    stars: stars
+                })
+                    .then(response => {
+                        console.log('Progress saved:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error saving progress:', error);
+                    });
+            }
+
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            for (let i = 0; i < span.length; i++) {
+                span[i].onclick = function () {
+                    span[i].parentElement.parentElement.style.display = "none";
+                }
+            }
+
+            feedbackClose.onclick = function () {
+                feedbackModal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                } else if (event.target == feedbackModal) {
+                    feedbackModal.style.display = "none";
+                } else if (event.target == codeModal) {
+                    codeModal.style.display = "none";
+                }
+            }
+
+            const instructions = [
+                " הוסיפו תנאי לתזוזת הספינה ימינה (פונקציית moveRight) – אם מיקום הספינה קטן מהנקודה הימנית ביותר במסך (150) , הספינה תזוז ב-20 צעדים ימינה",
+                " הוסיפו תנאי לתזוזת הספינה שמאלה (פונקציית moveLeft) – אם מיקום הספינה קטן מהנקודה השמאלית ביותר במסך (-150) , הספינה תזוז ב-20 צעדים שמאלה",
+                " הוסיפו תנאי לתזוזת הספינה למעלה (פונקציית moveUp ) – אם מיקום הספינה קטן מהנקודה העליונה ביותר במסך (200) , הספינה תזוז ב-20 צעדים למעלה",
+                " הוסיפו תנאי לתזוזת הספינה למטה (פונקציית moveDown) – אם מיקום הספינה קטן מהנקודה התחתונה ביותר במסך (-200) , הספינה תזוז ב-20 צעדים למטה",
+                " בדקו האם כעת תנועת הספינה מוגבלת לגבולות המסך",
+                " להצגת הקוד המלא לחצו על גלגל ההצלה"
+            ];
+
+            const pythonCodes = [
+                `#פונקציה לתנועה ימינה
+def moveRight():
+ #תנאי - אם המיקום הנוכחי של הספינה לא גדול מ 150 אז נתכנת תנועה
+    if player.xcor() < 150:
+      #שמירת המיקום הנוכחי של הספינה על ציר איקס
+      x = player.xcor()
+      #שינוי המיקום בתוספת 20 צעדים
+      player.setx(x+20)`,
+                `#תנועה לתנועה שמאלה
+def moveLeft():
+ #תנאי –אם המיקום הנוכחי של הספינה לא קטן מ 150 אז נתכנת תנועה 
+    if player.xcor() < -150:
+#שמירת המיקום הנוכחי של הספינה על ציר איקס
+      x = player.xcor()
+ #שינוי המיקום פחות 20 צעדים
+      player.setx(x-20)`,
+                `#פונקציה לתנועה למעלה
+def moveUp():
+ #תנאי – אם המיקום הנוכחי של הספינה לא גדול מ200 אז נתכנת תנועה
+    if player.xcor() < 200:
+#שמירת המיקום הנוכחי של הספינה על ציר וואי
+      y = player.ycor()
+      #שינוי המיקום בתוספת 20 צעדים
+      player.sety(y+20)`,
+                `#פונקציה לתנועה למטה
+def moveDown():
+ #תנאי –אם המיקום הנוכחי של הספינה לא קטן מ200 אז נתכנת תנועה 
+    if player.xcor() < -200:
+#שמירת המיקום הנוכחי של הספינה על ציר וואי
+       y = player.ycor()
+ #שינוי המיקום פחות 20 צעדים
+       player.sety(y-20)`,
+                'נסו להתנגש במסך עם הספינה',
+                `import turtle
+import random
+print "name"
+
+# הגדרת המסך
+sc = turtle.Screen()
+
+#גודל המסך
+sc.setup(350,400)
+
+#הוספת צבע למסך
+sc.bgcolor("light blue")
+
+#יצירת הדמות
+player = turtle.Turtle()
+player.penup()
+player.speed(0)
+
+#מיקום דמות בתחתית המסך
+player.goto(0,-150)
+
+#סיבוב הדמות ב90 מעלות שמאלה
+player.left(90)
+
+
+#העלאת תמונת ספינה למסך
+sc.addshape("pirate-ship.png")
+#שיוך התמונה לדמות
+player.shape("pirate-ship.png")
+
+
+#פונקציה לתנועה ימינה
+def moveRight():
+ #תנאי - אם המיקום הנוכחי של הספינה לא גדול מ 150 אז נתכנת תנועה
+    if player.xcor() < 150:
+      #שמירת המיקום הנוכחי של הספינה על ציר איקס
+      x = player.xcor()
+      #שינוי המיקום בתוספת 20 צעדים
+      player.setx(x+20)
+ 
+
+#תנועה לתנועה שמאלה
+def moveLeft():
+ #תנאי –אם המיקום הנוכחי של הספינה לא קטן מ 150 אז נתכנת תנועה 
+    if player.xcor() < -150:
+#שמירת המיקום הנוכחי של הספינה על ציר איקס
+      x = player.xcor()
+ #שינוי המיקום פחות 20 צעדים
+      player.setx(x-20)
+
+
+#פונקציה לתנועה למעלה
+def moveUp():
+ #תנאי – אם המיקום הנוכחי של הספינה לא גדול מ200 אז נתכנת תנועה
+    if player.xcor() < 200:
+#שמירת המיקום הנוכחי של הספינה על ציר וואי
+      y = player.ycor()
+      #שינוי המיקום בתוספת 20 צעדים
+      player.sety(y+20)
+
+
+#פונקציה לתנועה למטה
+def moveDown():
+ #תנאי –אם המיקום הנוכחי של הספינה לא קטן מ200 אז נתכנת תנועה 
+    if player.xcor() < -200:
+#שמירת המיקום הנוכחי של הספינה על ציר וואי
+       y = player.ycor()
+ #שינוי המיקום פחות 20 צעדים
+       player.sety(y-20)
+
+
+#האזנה של המסך למקלדת
+sc.listen()
+
+
+#קריאה לפונקציה בלחיצה על חץ ימין
+sc.onkey(moveRight, "Right")
+   
+   
+#קריאה לפונקציה בלחיצה על חץ שמאל 
+sc.onkey(moveLeft, "Left")
+
+       
+#קריאה לפונקציה בלחיצה על חץ למעלה 
+sc.onkey(moveUp, "Up")
+
+       
+#קריאה לפונקציה בלחיצה על חץ למטה   
+sc.onkey(moveDown, "Down")`
+            ];
+
+            let currentInstructionIndex = 0;
+
+            function updateInstruction() {
+                $("#instructionText").text(instructions[currentInstructionIndex]);
+                $("#instructionCounter").text(`${currentInstructionIndex + 1}/${instructions.length}`);
+                $("#prevInstruction").prop("disabled", currentInstructionIndex === 0);
+                $("#nextInstruction").prop("disabled", currentInstructionIndex === instructions.length - 1);
+
+                // Mark current instruction as viewed
+                instructionsViewed[currentInstructionIndex] = true;
+                // Check if the check button can be enabled
+                toggleCheckButton();
+            }
+
+            updateInstruction();
+
+            $("#nextInstruction").click(function () {
+                if (currentInstructionIndex < instructions.length - 1) {
+                    currentInstructionIndex++;
+                    updateInstruction();
+                }
+            });
+
+            $("#prevInstruction").click(function () {
+                if (currentInstructionIndex > 0) {
+                    currentInstructionIndex--;
+                    updateInstruction();
+                }
+            });
+
+            // Check button logic
+            $("#userAnswer").on("input", function () {
+                toggleCheckButton(); // Enable check button if conditions are met
+            });
+
+            $("#checkButton").click(function () {
+                const userAnswer = $("#userAnswer").val().trim();
+                feedbackModal.style.display = "block";
+
+                if (userAnswer === correctAnswer) {
+                    // Correct answer logic
+                    updateScore(true);
+                    showStarRating(getTotalScore());
+
+                    // Change the button text and redirect to the homepage
+                    $(".home-button").text("חזרה לדף הבית");
+                    $(".home-button").off("click").on("click", function () {
+                        window.location.href = '../homepage.html';
+                    });
+                } else {
+                    // Wrong answer logic
+                    updateScore(false);
+                    feedbackTitle.textContent = 'אופס טעות';
+                    feedbackMessage.textContent = 'תשובה שגויה. נסו שוב.';
+                    starRating.innerHTML = ''; // No gold sacks for incorrect answers
+
+                    // Change the button text and close the modal on click
+                    $(".home-button").text("נסו שוב");
+                    $(".home-button").off("click").on("click", function () {
+                        feedbackModal.style.display = "none"; // Close the modal on click
+                    });
+                }
+            });
+
+            showCodeButton.addEventListener("click", function () {
+                document.getElementById("pythonCode").innerText = pythonCodes[currentInstructionIndex];
+                codeModal.style.display = "block";
+            });
+
+            updateInstruction();
+        });
+    </script>
+</body>
+</html>

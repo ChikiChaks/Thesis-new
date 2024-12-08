@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 6</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px; /* Adjust this value as needed */
+            color: #333;
+        }
+
+        .heading-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .heading-container img {
+                margin-left: 10px;
+                width: 50px; /* Adjust the size of the image as needed */
+                height: auto;
+            }
+
+        h2 {
+            font-weight: bold;
+            color: #F3C545;
+            font-size: 50px;
+            margin: 0; /* Remove default margin to align properly */
+        }
+
+        h3 {
+            font-weight: bold;
+            color: #F3C545;
+            font-size: 30px;
+            margin: 20px 0;
+        }
+
+        #exerciseInfo p {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            background-color: #74797f !important; /* Disabled color */
+            color: white !important; /* Text color when disabled */
+            border-color: #74797f !important; /* Disabled border color */
+            border-radius: 50px; /* Make the button more circular */
+            padding: 10px 30px; /* Adjust padding for better shape */
+            font-size: 16px;
+            cursor: not-allowed; /* Initial state, to show it is disabled */
+            opacity: 0.6; /* Initial state, to show it is disabled */
+        }
+
+            .btn-primary.enabled {
+                background-color: #F3C545 !important; /* Enabled color */
+                border-color: #F3C545 !important; /* Enabled border color */
+                color: black !important; /* Text color when enabled */
+                cursor: pointer !important;
+                opacity: 1 !important;
+            }
+
+                .btn-primary.enabled:hover {
+                    background-color: #e6b93c !important;
+                    border-color: #e6b93c !important;
+                }
+
+        .table-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .run-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .run-table th,
+            .run-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            .run-table th {
+                background-color: #f3c545;
+                color: white;
+                font-size: 18px;
+            }
+
+            .run-table .static-text {
+                padding: 8px;
+                text-align: center;
+                font-size: 18px;
+                border: none;
+                background-color: #fff;
+            }
+
+            .run-table .name-input {
+                width: 100px;
+                padding: 8px;
+                border: 1px solid #4AA8A8;
+                border-radius: 4px;
+                text-align: center;
+                font-size: 18px;
+                cursor: text;
+            }
+
+        .btn-run {
+            background-color: #4AA8A8;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 30px;
+            border: none;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+            .btn-run:hover {
+                background-color: #3a8888;
+            }
+
+        .info-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fff;
+            width: 100%;
+        }
+
+            .info-box p {
+                font-size: 18px;
+                margin: 0;
+                line-height: 1.5;
+            }
+
+        .header-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+            .header-text div {
+                width: 41%;
+                padding: 3px;
+                border-radius: 8px;
+            }
+
+            .header-text .left-box {
+                background-color: #FAF9F5;
+                border: 2px solid #4AA8A8;
+                text-align: right;
+            }
+
+            .header-text .right-box {
+                background-color: #FAF9F5;
+                text-align: left;
+                border: 2px solid #F3C545;
+            }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <div class="heading-container">
+            <img src="/img/Blackflag.png" alt="Black Flag">
+            <h2>שלב 6 – יצירת מטבעות ומיקום שלהן</h2>
+        </div>
+        <div class="header-text">
+            <div class="left-box">
+                <p>מה נלמד?</p>
+                <p>ניצור לולאה באמצעותה ניתן מיקום רנדומלי למטבעות על המסך.</p>
+            </div>
+            <div class="right-box">
+                <p>מתי?</p>
+                <p>תוכלו לענות על השלב אחרי שלמדתם את הנושא תנאים.</p>
+            </div>
+        </div>
+        <br />
+        <h3>לולאת for</h3>
+        <div>
+            <p>לולאת for היא כלי שמאפשר לנו לעשות את אותה הפעולה כמה פעמים בצורה קלה ופשוטה.</p>
+            <p>בואו נשתמש בלולאה להדפיס את כל המספרים עד 5. לחצו על כפתור ה-Run וגלו מה נקבל.</p>
+        </div>
+
+        <div style="direction:ltr;" class="table-container">
+            <table class="run-table">
+                <thead>
+                    <tr>
+                        <th>Main</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="static-text">for x in range(5):</span><br />
+                            <span style=" margin-left: 70px; " class="static-text">print(x)</span>
+                        </td>
+                        <td id="resultCell"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn-run" onclick="runCode()">Run</button>
+
+        <button type="button" class="btn btn-primary" id="practiceButton" onclick="navigateToQuestions()" disabled>בואו נתחיל לתרגל</button>
+
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        function navigateToQuestions() {
+            const islandName = 'Island 6';
+            initializeLevelScore(islandName);
+            window.location.href = 'infoQuestionLv6.html';
+        }
+
+        function initializeLevelScore(islandName) {
+            const levelKey = `${islandName}Score`;
+            if (!localStorage.getItem(levelKey)) {
+                localStorage.setItem(levelKey, 100); // Initialize score to 100 if not already set
+            }
+        }
+
+        // Initialize level score on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            const islandName = 'Island 6';
+            initializeLevelScore(islandName);
+        });
+
+        // Function to handle the Run button click
+        function runCode() {
+            const resultCell = document.getElementById('resultCell');
+            resultCell.innerHTML = '0<br>1<br>2<br>3<br>4';
+
+            // Enable the practice button
+            const practiceButton = document.getElementById('practiceButton');
+            practiceButton.disabled = false;
+            practiceButton.classList.add('enabled');
+        }
+    </script>
+</body>
+</html>

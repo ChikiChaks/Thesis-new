@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>תכנות 3 - שיעור API</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #exerciseInfo, #questionsContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px; /* Adjust this value as needed */
+        }
+
+            #exerciseInfo p {
+                text-align: center;
+            }
+
+        #goToPrototypeBtn, #nextQuestionBtn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            #goToPrototypeBtn:hover, #nextQuestionBtn:hover {
+                background-color: #0056b3;
+            }
+
+        .question {
+            display: none;
+        }
+
+            .question.active {
+                display: block;
+            }
+
+        .feedback {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <h2>מידע על התרגיל</h2>
+        <p>כאן תוכל למצוא מידע נוסף על התרגיל שלך. זה יכול לכלול הוראות, תיאור הבעיה, וכדומה.</p>
+        <button type="button" class="btn btn-primary" onclick="window.location.href = 'infoLv2.html';">לדף מידע</button>
+    </div>
+
+    <div id="questionsContainer">
+        <div class="question active">
+            <h3>שאלה 1: מהו כוכב הלכת הגדול ביותר במערכת השמש?</h3>
+            <input type="radio" id="q1a" name="q1" value="Jupiter">
+            <label for="q1a">יופיטר</label><br>
+            <input type="radio" id="q1b" name="q1" value="Saturn">
+            <label for="q1b">שבתאי</label><br>
+            <input type="radio" id="q1c" name="q1" value="Earth">
+            <label for="q1c">כדור הארץ</label><br>
+            <input type="radio" id="q1d" name="q1" value="Mars">
+            <label for="q1d">מאדים</label><br>
+            <div class="feedback" id="feedback1"></div>
+            <button class="help-btn" title="כוכב הלכת הגדול ביותר במערכת השמש הוא זה הממוקם בין שבתאי למאדים.">עזרה</button>
+        </div>
+        <div class="question">
+            <h3>שאלה 2: מי היה ממציא הטלפון?</h3>
+            <input type="radio" id="q2a" name="q2" value="Thomas Edison">
+            <label for="q2a">תומאס אדיסון</label><br>
+            <input type="radio" id="q2b" name="q2" value="Nikola Tesla">
+            <label for="q2b">ניקולה טסלה</label><br>
+            <input type="radio" id="q2c" name="q2" value="Alexander Graham Bell">
+            <label for="q2c">אלכסנדר גרהם בל</label><br>
+            <input type="radio" id="q2d" name="q2" value="Albert Einstein">
+            <label for="q2d">אלברט איינשטיין</label><br>
+            <div class="feedback" id="feedback2"></div>
+            <button class="help-btn" title="הממציא הוא הידוע גם בשמו גרהם בל.">עזרה</button>
+        </div>
+        <div class="question">
+            <h3>שאלה 3: מהו הנהר הארוך ביותר בעולם?</h3>
+            <input type="radio" id="q3a" name="q3" value="Nile">
+            <label for="q3a">הנילוס</label><br>
+            <input type="radio" id="q3b" name="q3" value="Amazon">
+            <label for="q3b">האמאזונס</label><br>
+            <input type="radio" id="q3c" name="q3" value="Yangtze">
+            <label for="q3c">היאנגצה</label><br>
+            <input type="radio" id="q3d" name="q3" value="Mississippi">
+            <label for="q3d">המיסיסיפי</label><br>
+            <div class="feedback" id="feedback3"></div>
+            <button class="help-btn" title="הנהר הארוך ביותר עובר בצפון מזרח אפריקה.">עזרה</button>
+        </div>
+        <button id="nextQuestionBtn">הבא</button>
+        <button id="goToPrototypeBtn" style="display: none;">עבור לעמוד ה-Prototype</button>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feedbackModalLabel">משוב</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="feedbackMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="modalNextBtn">אישור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const nextButton = document.getElementById('nextQuestionBtn');
+            const goToPrototypeButton = document.getElementById('goToPrototypeBtn');
+            const feedbackModal = $('#feedbackModal');
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            const modalNextBtn = document.getElementById('modalNextBtn');
+            const islandName = 'Island 2'; // Changed to Level 2
+            const maxScore = 60; // Max score for this section
+            let currentScore = maxScore;
+            let currentQuestion = 0;
+
+            const answers = [
+                { question: 0, correct: 'Jupiter' },
+                { question: 1, correct: 'Alexander Graham Bell' },
+                { question: 2, correct: 'Nile' }
+            ];
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.classList.toggle('active', i === index);
+                });
+            }
+
+            function showHelpText(event) {
+                const helpText = event.target.getAttribute('title');
+                if (helpText) {
+                    const helpBox = document.createElement('div');
+                    helpBox.classList.add('help-box');
+                    helpBox.textContent = helpText;
+                    event.target.parentNode.insertBefore(helpBox, event.target.nextSibling);
+                    setTimeout(() => {
+                        helpBox.remove();
+                    }, 3000); // Remove the help box after 3 seconds
+                }
+            }
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = maxScore / answers.length;
+                    currentScore -= penalty;
+                }
+                const levelKey = `${islandName}ScoreAmerican`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            // Adding event listeners to "Help" buttons
+            const helpButtons = document.querySelectorAll('.help-btn');
+            helpButtons.forEach(button => {
+                button.addEventListener('click', showHelpText);
+            });
+
+            nextButton.addEventListener('click', () => {
+                const currentQuestionElement = questions[currentQuestion];
+                const selectedAnswer = currentQuestionElement.querySelector('input[type="radio"]:checked');
+
+                if (selectedAnswer) {
+                    const isCorrect = selectedAnswer.value === answers[currentQuestion].correct;
+                    feedbackMessage.textContent = isCorrect ? 'Correct!' : 'Wrong answer.';
+                    feedbackModal.modal('show');
+
+                    modalNextBtn.onclick = () => {
+                        feedbackModal.modal('hide');
+                        feedbackMessage.textContent = '';
+
+                        updateScore(isCorrect);
+
+                        if (currentQuestion < questions.length - 1) {
+                            currentQuestion++;
+                            showQuestion(currentQuestion);
+                        } else {
+                            nextButton.style.display = 'none';
+                            goToPrototypeButton.style.display = 'block';
+                        }
+                    };
+                } else {
+                    feedbackMessage.textContent = 'Please select an answer.';
+                    feedbackModal.modal('show');
+                }
+            });
+
+            showQuestion(currentQuestion);
+
+            goToPrototypeButton.addEventListener('click', () => {
+                window.location.href = 'prototypeLv2.html'; // Changed to point to Level 2 prototype
+            });
+        });
+    </script>
+</body>
+</html>

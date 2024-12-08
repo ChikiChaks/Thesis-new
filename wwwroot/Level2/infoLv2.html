@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 2</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px; /* Adjust this value as needed */
+            color: #333;
+        }
+
+        .heading-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .heading-container img {
+                margin-left: 10px;
+                width: 50px; /* Adjust the size of the image as needed */
+                height: auto;
+            }
+
+        h2 {
+            font-weight: bold;
+            color: #F3C545;
+            font-size: 55px;
+            margin: 0; /* Remove default margin to align properly */
+        }
+
+        h3 {
+            font-weight: bold;
+            color: #F3C545;
+            font-size: 30px;
+            margin: 20px 0;
+        }
+
+        #exerciseInfo p {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            background-color: #F3C545;
+            color: black;
+            border-color: #F3C545;
+            border-radius: 50px; /* Make the button more circular */
+            padding: 10px 30px; /* Adjust padding for better shape */
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 1; /* Ensure the button is fully opaque */
+        }
+
+            .btn-primary:hover {
+                background-color: #e6b93c;
+                border-color: #e6b93c;
+            }
+
+        .info-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fff;
+            width: 100%;
+        }
+
+            .info-box p {
+                font-size: 18px;
+                margin: 0;
+                line-height: 1.5;
+            }
+
+        .header-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+            .header-text div {
+                width: 44%;
+                padding: 3px;
+                border-radius: 8px;
+            }
+
+            .header-text .left-box {
+                background-color: #FAF9F5;
+                border: 2px solid #4AA8A8;
+                text-align: right;
+            }
+
+            .header-text .right-box {
+                background-color: #FAF9F5;
+                text-align: left;
+                border: 2px solid #F3C545;
+            }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <div class="heading-container">
+            <img src="/img/Blackflag.png" alt="Black Flag">
+            <h2>שלב 2 – יצירת דמות</h2>
+        </div>
+        <div class="header-text">
+            <div class="left-box">
+                <p>מה נלמד?</p>
+                <p>ניצור דמות turtle וניתן לה הגדרות כמו מהירות, מיקום ועוד!</p>
+            </div>
+            <div class="right-box">
+                <p>מתי?</p>
+                <p>תוכלו לענות על השלב אחרי שלמדתם את נושא תכנות מסך, יצירת דמות turtle ותכונות.</p>
+            </div>
+        </div>
+        <br />
+        <h3>יצירת דמות</h3>
+        <div>
+            <p>באיי הזה ניצור דמות turtle וניתן לה הגדרות כמו מהירות, מיקום ועוד!</p>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="practiceButton" onclick="navigateToQuestions()">בואו נתחיל לתרגל</button>
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        function navigateToQuestions() {
+            const islandName = 'Island 2';
+            initializeLevelScore(islandName);
+            window.location.href = 'infoQuestionLv2.html';
+        }
+
+        function initializeLevelScore(islandName) {
+            const levelKey = `${islandName}Score`;
+            if (!localStorage.getItem(levelKey)) {
+                localStorage.setItem(levelKey, 100); // Initialize score to 100 if not already set
+            }
+        }
+
+        // Initialize level score on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            const islandName = 'Island 2';
+            initializeLevelScore(islandName);
+        });
+    </script>
+</body>
+</html>

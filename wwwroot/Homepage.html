@@ -1,0 +1,733 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>מיינדפלי - מסך הבית</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-image: url('/img/background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        #homepageContainer {
+            position: relative;
+            width: 1200px;
+            height: 500px;
+            background-image: url('/img/background.png');
+            background-size: cover;
+            background-position: center;
+            margin-top: 20px;
+        }
+
+        .level-image {
+            position: absolute;
+            cursor: pointer;
+            width: 10%;
+            height: 15%;
+            transition: transform 0.3s;
+        }
+
+            .level-image:hover {
+                transform: scale(1.15);
+            }
+
+            .level-image.disabled {
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            width: 100%;
+            direction: ltr;
+        }
+
+            .header .nav-buttons {
+                display: flex;
+                gap: 20px;
+            }
+
+                .header .nav-buttons button {
+                    background-color: transparent;
+                    border: none;
+                    cursor: pointer;
+                    color: white;
+                    font-size: 18px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    transition: transform 0.3s;
+                }
+
+                    .header .nav-buttons button:hover {
+                        transform: scale(1.15);
+                    }
+
+                    .header .nav-buttons button img {
+                        width: 45px;
+                        height: 45px;
+                    }
+
+                    .header .nav-buttons button span {
+                        margin-top: 5px;
+                    }
+
+            .header .avatar {
+                display: flex;
+                align-items: center;
+            }
+
+                .header .avatar img {
+                    width: 85px;
+                    height: 85px;
+                    margin-left: 20px;
+                }
+
+                .header .avatar div {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                    .header .avatar div h4 {
+                        margin: 0;
+                        font-size: 18px;
+                    }
+
+                    .header .avatar div p {
+                        margin: 0;
+                        font-size: 16px;
+                    }
+
+                    .header .avatar div img {
+                        margin: 5px;
+                        width: 30px;
+                        height: 30px;
+                    }
+
+        .island-label {
+            position: absolute;
+            width: 100px;
+            text-align: center;
+            color: black;
+            font-weight: bold;
+            font-size: 18px;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .gold-sack-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+            .gold-sack-container img {
+                width: 30px; /* Smaller size */
+                padding: 3px;
+            }
+
+        .modal-custom {
+            background-color: #FAF9F5;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+            background-image: url('/img/questionMark.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 350px;
+        }
+
+            .modal-custom .close {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 24px;
+                font-weight: bold;
+                cursor: pointer;
+                color: #333;
+            }
+
+            .modal-custom h2 {
+                color: #F3C545;
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+
+            .modal-custom p {
+                font-size: 24px;
+                color: #333;
+                position: relative;
+                top: 30px;
+            }
+
+            .modal-custom button {
+                background-color: #F3C545;
+                border: none;
+                padding: 10px 30px;
+                border-radius: 50px;
+                font-size: 20px;
+                color: white;
+                margin-top: 70px;
+                width: 200px;
+                margin-right: 130px;
+            }
+
+            .modal-custom img,
+            .modal-custom video {
+                display: block;
+                margin: 0 auto 15px;
+            }
+
+        .modal-custom-level1 {
+            background-color: #FAF9F5;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+            background-image: url('/img/questionMark.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 550px;
+        }
+
+            .modal-custom-level1 button {
+                background-color: #F3C545;
+                border: none;
+                padding: 10px 30px;
+                border-radius: 50px;
+                font-size: 20px;
+                color: white;
+                width: 200px;
+                margin-right: 130px;
+            }
+
+            .modal-custom-level1 .close {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 24px;
+                font-weight: bold;
+                cursor: pointer;
+                color: #333;
+            }
+
+            .modal-custom-level1 h2 {
+                color: #F3C545;
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+
+        .modal-explanation {
+            background-color: #FAF9F5;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+            height: 600px;
+            width: 900px;
+        }
+
+            .modal-explanation .close {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 35px;
+                font-weight: bold;
+                cursor: pointer;
+                color: #333;
+            }
+
+            .modal-explanation h2 {
+                color: #F3C545;
+                font-size: 36px;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .modal-explanation .modal-body {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+                .modal-explanation .modal-body .video-container {
+                    flex: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                    .modal-explanation .modal-body .video-container video {
+                        width: 90%;
+                        height: auto;
+                    }
+
+                .modal-explanation .modal-body .text-container {
+                    flex: 1;
+                    padding: 20px;
+                    text-align: right;
+                }
+
+                    .modal-explanation .modal-body .text-container p {
+                        font-size: 20px;
+                        color: #333;
+                    }
+
+            .modal-explanation .modal-footer {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+                .modal-explanation .modal-footer button {
+                    background-color: #F3C545;
+                    border: none;
+                    padding: 10px 30px;
+                    border-radius: 50px;
+                    font-size: 20px;
+                    color: white;
+                    width: 200px;
+                }
+    </style>
+</head>
+<body>
+    <!-- Header section -->
+    <!-- Updated Header Section -->
+    <div class="header">
+        <div class="avatar">
+            <img id="userAvatar" src="" alt="Pirate Icon">
+            <div style="padding-left:30px;">
+                <h4 id="username">Ofek Bacoushe</h4>
+                <p><img src="/img/GoldSackV1.png" alt="Gold Sack Icon"> <span id="starCount">10</span></p>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button onclick="window.location.href='Shop.html';">
+                <img src="/img/ShopIcon.png" alt="Shop Icon">
+                <span>דמויות</span>
+            </button>
+            <button onclick="window.location.href='mindplay_learn.html';">
+                <img src="/img/InfoIcon.png" alt="Info Icon">
+                <span>מידע</span>
+            </button>
+            <!-- New About Button -->
+            <button id="aboutButton" data-toggle="modal" data-target="#aboutModal">
+                <img src="/img/about.png" alt="About Icon">
+                <span>אודות</span>
+            </button>
+        </div>
+        <div class="title" style="text-align:right; display: flex; align-items: center; gap: 10px;">
+            <h2 style="color: #F3C545; margin: 0;">מערכת התרגול העצמית של מיינדפלי<br /><span style="font-size:20px; color:white;">לחצו על אי והתחילו לתרגל</span></h2>
+            <a style=" cursor: pointer; " onclick="window.location.href='homepage.html';">
+                <img src="/img/logowhite.png" alt="Logo" style="width: 70px; height: 70px;">
+            </a>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-custom-level1">
+                <span class="close" data-dismiss="modal" aria-label="Close">&times;</span>
+                <h2>אודות</h2>
+                <p style="font-weight:bold; font-size:18px;">מיינדפלי פיראטים</p>
+                <img src="/img/logo.png" alt="Logo" style="width: 150px; margin-bottom: 10px; align-self: center; ">
+                <p>פרוייקט גמר תשפ"ד הפקולטה לטכנולוגיות למידה</p>
+                <p>מערכת לתרגול ולמידה של תכנות בפייתון</p>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <img src="/img/HIT-logo.png" alt="HIT Logo" style="width: 180px;">
+                    <p>צוות הפרוייקט - פאנוס נדאו ואופק בקוש<br>מנחים - נטע שורק ועדי סילגי</p>
+                </div>
+                <p style="font-size: 12px; color: grey;">כל הזכויות שמורות למכון טכנולוגי חולון HIT</p>
+                <p style="font-size: 12px; color: grey;">במשחק זה נעשה שימוש באלמנטים שעוצבו על ידי FREEPIK Craiyon Flaticon</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="homepageContainer">
+        <div class="island-label" id="island1Label" style="top: 20px; right: 50px;">Island 1</div>
+        <img src="/img/level1Dis.png" class="level-image disabled" id="level1" style="top: 65px; right: 50px;" onclick="openModal('Island 1', '/level1/infoLv1.html')">
+        <div id="goldSackContainer1" class="gold-sack-container" style="top: 140px; right: 50px; position: absolute;"></div>
+
+        <div class="island-label" id="island2Label" style="top: 330px; right: 60px;">Island 2</div>
+        <img src="/img/level2Dis.png" class="level-image disabled" id="level2" style="top: 365px; right: 60px;" onclick="openModal('Island 2', '/level2/infoLv2.html')">
+        <div id="goldSackContainer2" class="gold-sack-container" style="top: 440px; right: 60px; position: absolute;"></div>
+
+        <div class="island-label" id="island3Label" style="top: 170px; right: 270px;">Island 3</div>
+        <img src="/img/level3Dis.png" class="level-image disabled" id="level3" style="top: 215px; right: 270px;" onclick="openModal('Island 3', '/level3/infoLv3.html')">
+        <div id="goldSackContainer3" class="gold-sack-container" style="top: 290px; right: 270px; position: absolute;"></div>
+
+        <div class="island-label" id="island4Label" style="top: 340px; right: 410px;">Island 4</div>
+        <img src="/img/level4Dis.png" class="level-image disabled" id="level4" style="top: 385px; right: 410px;" onclick="openModal('Island 4', '/level4/infoLv4.html')">
+        <div id="goldSackContainer4" class="gold-sack-container" style="top: 460px; right: 410px; position: absolute;"></div>
+
+        <div class="island-label" id="island5Label" style="top: 180px; right: 500px;">Island 5</div>
+        <img src="/img/level5Dis.png" class="level-image disabled" id="level5" style="top: 215px; right: 500px;" onclick="openModal('Island 5', '/level5/infoLv5.html')">
+        <div id="goldSackContainer5" class="gold-sack-container" style="top: 290px; right: 500px; position: absolute;"></div>
+
+        <div class="island-label" id="island6Label" style="top: 20px; right: 510px;">Island 6</div>
+        <img src="/img/level6Dis.png" class="level-image disabled" id="level6" style="top: 55px; right: 510px;" onclick="openModal('Island 6', '/level6/infoLv6.html')">
+        <div id="goldSackContainer6" class="gold-sack-container" style="top: 130px; right: 510px; position: absolute;"></div>
+
+        <div class="island-label" id="island7Label" style="top: 100px; right: 750px;">Island 7</div>
+        <img src="/img/level7Dis.png" class="level-image disabled" id="level7" style="top: 145px; right: 750px;" onclick="openModal('Island 7', '/level7/infoLv7.html')">
+        <div id="goldSackContainer7" class="gold-sack-container" style="top: 220px; right: 750px; position: absolute;"></div>
+
+        <div class="island-label" id="island8Label" style="top: 325px; right: 780px;">Island 8</div>
+        <img src="/img/level8Dis.png" class="level-image disabled" id="level8" style="top: 365px; right: 780px;" onclick="openModal('Island 8', '/level8/infoLv8.html')">
+        <div id="goldSackContainer8" class="gold-sack-container" style="top: 440px; right: 780px; position: absolute;"></div>
+
+        <div class="island-label" id="island9Label" style="top: 25px; right: 960px;">Island 9</div>
+        <img src="/img/level9Dis.png" class="level-image disabled" id="level9" style="top: 65px; right: 960px;" onclick="openModal('Island 9', '/level9/infoLv9.html')">
+        <div id="goldSackContainer9" class="gold-sack-container" style="top: 140px; right: 960px; position: absolute;"></div>
+
+        <div class="island-label" id="island10Label" style="top: 250px; right: 1100px;">Island 10</div>
+        <img src="/img/level10Dis.png" class="level-image disabled" id="level10" style="top: 295px; right: 1100px;" onclick="openModal('Island 10', '/level10/infoLv10.html')">
+        <div id="goldSackContainer10" class="gold-sack-container" style="top: 370px; right: 1100px; position: absolute;"></div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer style="background-color: black; padding: 20px; text-align: center; width: 100%; position: fixed; bottom: 0; left: 0;">
+        <p style="color: #F3C545; font-size: 18px; margin: 0;">
+            תוצר זה פותח במסגרת פרויקט גמר לתואר ראשון בטכנולוגיות למידה, HIT |
+            <a href="https://www.hit.ac.il/academic/instructional-technologies/" target="_blank" style="color: #F3C545; text-decoration: underline;">
+                למידע נוסף
+            </a>
+        </p>
+    </footer>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="levelModal" tabindex="-1" role="dialog" aria-labelledby="levelModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-custom" id="modalContent">
+                <span class="close" data-dismiss="modal" aria-label="Close">&times;</span>
+                <h2 id="modalTitle">אי 2</h2>
+                <p id="modalDescription">ניצור את דמות הספינה, נמקם אותה על המסך ונוסיף לה מלא הגדרות מגניבות !</p>
+                <div id="modalVideoContainer" style="margin-bottom: 15px;"></div>
+                <button type="button" class="btn" id="startButton">בואו נתחיל !</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explanation Modal -->
+    <div class="modal fade" id="explanationModal" tabindex="-1" role="dialog" aria-labelledby="explanationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modal-explanation">
+                <span class="close" data-dismiss="modal" aria-label="Close">&times;</span>
+                <h2 id="explanationModalTitle">כולם לעלות לסיפון !</h2>
+                <div class="modal-body">
+                    <div class="text-container">
+                        <p>בכל אי נכיר ונתרגל מושגים ונשתמש בהם בכדי ליצור פרויקט - יצירת משחק פריאטים לגמרי בעצמכם!</p>
+                        <p>צפו בסרטון וגלו מה המשחק שנרכיב בסיום כל השלבים.</p>
+                    </div>
+                    <div class="video-container" style="width:100%; height:100%;">
+                        <iframe width="100%" height="100%" src="https://player.vimeo.com/video/1009595374?h=234930d3ab&amp;app_id=122963" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">בואו נתחיל!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        // Check login status immediately when the page loads
+        checkLoginStatus();
+
+        async function fetchUserData() {
+            try {
+                console.log('Fetching user data...');
+                const response = await fetch('/api/user/homepage'); // Adjust the URL to your API endpoint
+                const data = await response.json();
+
+                // Update user avatar
+                const userAvatar = document.getElementById('userAvatar');
+                if (userAvatar) {
+                    userAvatar.src = `/img/${data.avatar}`; // Ensure correct path to the image
+                    userAvatar.style.cssText = data.avatarCss;
+                }
+
+                // Update username and stars
+                const usernameElement = document.getElementById('username');
+                if (usernameElement) {
+                    usernameElement.textContent = data.username;
+                }
+                const starCountElement = document.getElementById('starCount');
+                if (starCountElement) {
+                    starCountElement.textContent = data.stars;
+                }
+
+                // Call function to show the explanation modal once per user
+                showExplanationModalOnce(data.username);
+
+                // Island names in Hebrew
+                const islandNames = {
+                    island1: "אי 1",
+                    island2: "אי 2",
+                    island3: "אי 3",
+                    island4: "אי 4",
+                    island5: "אי 5",
+                    island6: "אי 6",
+                    island7: "אי 7",
+                    island8: "אי 8",
+                    island9: "אי 9",
+                    island10: "אי 10"
+                };
+
+                // Update island names
+                for (let i = 1; i <= 10; i++) {
+                    const islandLabel = document.getElementById(`island${i}Label`);
+                    if (islandLabel) {
+                        islandLabel.textContent = islandNames[`island${i}`];
+                    }
+                }
+
+                // Mark completed levels and enable the next one
+                let nextLevelToEnable = 1;
+                for (let i = 1; i <= 10; i++) {
+                    const levelImage = document.getElementById(`level${i}`);
+                    if (data[`level${i}`] > 0) {
+                        levelImage.src = `/img/level${i}.png`;
+                        nextLevelToEnable = i + 1;
+                    }
+                }
+
+                // Enable the next level in sequence
+                if (nextLevelToEnable <= 10) {
+                    const nextLevelImage = document.getElementById(`level${nextLevelToEnable}`);
+                    if (nextLevelImage) {
+                        nextLevelImage.classList.remove('disabled');
+                        nextLevelImage.src = `/img/level${nextLevelToEnable}.png`;
+                    }
+                }
+
+                // Enable all completed levels and show the correct gold sacks
+                for (let i = 1; i <= 10; i++) {
+                    const levelImage = document.getElementById(`level${i}`);
+                    const goldSackContainer = document.getElementById(`goldSackContainer${i}`);
+                    if (data[`level${i}`] > 0 && levelImage) {
+                        levelImage.classList.remove('disabled');
+
+                        // Fetch the correct score from localStorage
+                        const americanQuestionScore = parseInt(localStorage.getItem(`Island ${i}ScoreAmerican`)) || 0;
+                        const codingChallengeScore = parseInt(localStorage.getItem(`Island ${i}ScoreCoding`)) || 0;
+                        const totalScore = americanQuestionScore + codingChallengeScore;
+
+                        // Compare with the highest score and update if needed
+                        const highestScoreKey = `Island${i}HighestScore`;
+                        const highestScore = parseInt(localStorage.getItem(highestScoreKey)) || 0;
+
+                        if (totalScore > highestScore) {
+                            localStorage.setItem(highestScoreKey, totalScore);
+                        }
+
+                        // Update gold sacks based on the highest score
+                        updateGoldSacks(i, Math.max(totalScore, highestScore));
+                    } else {
+                        // Hide the gold sacks for disabled levels
+                        goldSackContainer.style.display = 'none';
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        }
+
+        // Function to show explanation modal once per user
+        function showExplanationModalOnce(username) {
+            const explanationModalShownKey = `explanationModalShown_${username}`;
+
+            if (!localStorage.getItem(explanationModalShownKey)) {
+                // Show the explanation modal
+                $('#explanationModal').modal('show');
+
+                // Mark the modal as shown for this user
+                localStorage.setItem(explanationModalShownKey, 'true');
+            }
+        }
+
+        function openModal(islandName, url) {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalVideoContainer = document.getElementById('modalVideoContainer');
+            const modalContent = document.getElementById('modalContent');
+
+            const modalData = {
+                'Island 1': {
+                    title: 'אי 1',
+                    description: 'נלמד איך לייבא סיפריות ואת השימוש שלהם!',
+                    video: '<iframe src="https://player.vimeo.com/video/1007337986?h=63a4cb543d&amp;app_id=122963" width="420px" height="350px" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="Mindplay - Pirates - Game"></iframe>',
+                    customClass: 'modal-custom-level1'
+                },
+                'Island 2': {
+                    title: 'אי 2',
+                    description: 'ניצור את דמות הספינה, נמקם אותה על המסך ונוסיף לה מלא הגדרות מגניבות!',
+                    video: '<img src="/img/Popup2.png" width="390" height="320" alt="Popup Image">',
+                    customClass: 'modal-custom-level1'
+                },
+                'Island 3': {
+                    title: 'אי 3',
+                    description: 'ניצור פונקציות שיגרמו לספינה הפיראטים לזוז על המסך לאיזה כיוון שרק נרצה !',
+                    video: '<img src="/img/Popup3.png" width="390" height="320" alt="Popup Image">',
+                    customClass: 'modal-custom-level1'
+                },
+                'Island 4': {
+                    title: 'אי 4',
+                    description: 'נגרום לספינת הפיראטים לזוז באמצעות לחיצות על מקשים במקלדת !',
+                    video: '<video width="420px" height="350px" controls><source src="/img/Popup4.mov" type="video/mp4">Your browser does not support the video tag.</video>',
+                    customClass: 'modal-custom-level1'
+                },
+                'Island 5': {
+                    title: 'אי 5',
+                    description: 'נשתמש בתנאים כדי להגביל את תנועת ספינת הפיראטים ולוודא שהיא תמיד נשארת על המסך',
+                    video: '<video width="390px" height="320px" controls><source src="/img/Popup5.mov" type="video/mp4">Your browser does not support the video tag.</video>',
+                    customClass: 'modal-custom-level1'
+                },
+                'Island 6': {
+                    title: 'אי 6',
+                    description: 'ניצור את המטבעות אותן תאסוף הספינה וניתן להם מיקומים רנדומליים על המסך',
+                    video: '<img src="/img/Popup6.png" width="390" height="320" alt="Popup Image">',
+                    customClass: 'modal-custom-level1'
+                },
+                'Island 7': {
+                    title: 'אי 7',
+                    description: 'ניצור רשימה לכל המטבעות ונוסיף מטבעות חדשים',
+                    video: '',
+                    customClass: 'modal-custom'
+                },
+                'Island 8': {
+                    title: 'אי 8',
+                    description: 'ניצור לולאה אינסופית שתבדוק לנו את הנגיעה של הספינה במטבע !',
+                    video: '',
+                    customClass: 'modal-custom'
+                },
+                'Island 9': {
+                    title: 'אי 9',
+                    description: 'נבדוק מה המרחק בין הספינה למטבע וניתן למטבע מיקום חדש בנגיעה !',
+                    video: '<video width="390px" height="320px" controls><source src="/img/Popup9.mov" type="video/mp4">Your browser does not support the video tag.</video>',
+                    customClass: 'modal-custom-level1'
+                },
+                'Island 10': {
+                    title: 'אי 10',
+                    description: 'נספור כמה מטבעות אספה הספינה וניצור דמות שתציג את המספר על המסך !',
+                    video: '',
+                    customClass: 'modal-custom'
+                }
+            };
+
+            const content = modalData[islandName];
+            modalTitle.textContent = content.title;
+            modalDescription.textContent = content.description;
+            modalVideoContainer.innerHTML = content.video;
+            modalContent.className = `modal-content ${content.customClass}`;
+
+            document.getElementById('startButton').onclick = function () {
+                initializeLevelScore(islandName);
+                window.location.href = url;
+            };
+            $('#levelModal').modal('show');
+        }
+
+        function initializeLevelScore(islandName) {
+            const levelKey = `${islandName}ScoreCoding`;
+            if (!localStorage.getItem(levelKey)) {
+                localStorage.setItem(levelKey, 100); // Initialize score to 100
+            }
+        }
+
+        function updateGoldSacks(level, score) {
+            console.log(`Updating gold sacks for level ${level} with score: ${score}`);
+            const goldSackContainer = document.getElementById(`goldSackContainer${level}`);
+            let totalSacks = 0;
+
+            // Determine the number of gold sacks based on the score
+            if (score >= 90) {
+                totalSacks = 3;
+            } else if (score >= 60) {
+                totalSacks = 2;
+            } else if (score >= 30) {
+                totalSacks = 1;
+            } else {
+                totalSacks = 0;
+            }
+
+            // Clear the current gold sack display
+            goldSackContainer.innerHTML = '';
+
+            // Add gold sack images with full opacity for earned sacks
+            for (let i = 0; i < totalSacks; i++) {
+                const goldSack = document.createElement('img');
+                goldSack.src = '/img/GoldSackV1.png';
+                goldSack.alt = 'Gold Sack';
+                goldSack.style.opacity = '1';
+                goldSackContainer.appendChild(goldSack);
+            }
+
+            // Add gold sack images with lower opacity for unearned sacks
+            for (let i = totalSacks; i < 3; i++) {
+                const goldSack = document.createElement('img');
+                goldSack.src = '/img/GoldSackV1.png';
+                goldSack.alt = 'Gold Sack';
+                goldSack.style.opacity = '0.3';
+                goldSackContainer.appendChild(goldSack);
+            }
+        }
+
+        window.onload = fetchUserData;
+    </script>
+
+
+
+
+
+</body>
+</html>

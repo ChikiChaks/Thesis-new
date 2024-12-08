@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\user\Downloads\פרויקט גמר\פרויקט סופי פונקציונאליות עובדת\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2024-07-05T11:25:44.2045454Z;True|2024-06-26T18:56:01.1247777+03:00;True|2024-06-24T13:25:33.4888541+03:00;True|2024-06-17T20:19:32.7697329+03:00;True|2024-06-17T20:14:33.8748880+03:00;True|2024-06-17T20:10:34.4115195+03:00;True|2024-06-17T17:36:24.9504039+03:00;True|2024-06-17T17:21:23.1963261+03:00;True|2024-06-17T17:14:52.4714236+03:00;True|2024-06-17T16:46:21.9382121+03:00;True|2024-06-17T16:23:42.7296832+03:00;True|2024-06-17T13:42:39.3793616+03:00;True|2024-06-17T13:37:11.5265831+03:00;True|2024-06-17T13:34:25.0451467+03:00;True|2024-06-17T12:45:44.8190188+03:00;True|2024-06-17T12:33:04.1894886+03:00;True|2024-06-17T12:31:25.9231223+03:00;True|2024-06-17T11:45:34.0955007+03:00;True|2024-06-17T11:27:32.8602829+03:00;True|2024-06-17T11:10:15.0548878+03:00;True|2024-06-17T10:41:57.4287475+03:00;True|2024-06-17T01:02:05.7105914+03:00;True|2024-06-17T00:03:23.1321422+03:00;True|2024-06-16T22:58:11.3534635+03:00;True|2024-06-16T22:39:54.6718947+03:00;True|2024-06-16T22:30:55.7102819+03:00;False|2024-06-16T22:30:08.0306476+03:00;True|2024-06-16T22:20:44.6457091+03:00;True|2024-06-16T22:00:56.1608228+03:00;True|2024-06-16T21:55:07.2951367+03:00;True|2024-06-16T21:35:37.0611716+03:00;True|2024-06-16T21:14:52.6709708+03:00;True|2024-06-16T21:04:38.1563063+03:00;True|2024-06-16T20:59:19.2766339+03:00;True|2024-06-16T20:11:23.0569903+03:00;True|2024-06-16T19:57:29.4617394+03:00;True|2024-06-16T19:51:24.0510080+03:00;True|2024-06-16T19:36:45.3690179+03:00;False|2024-06-16T19:29:37.1954083+03:00;True|2024-06-16T19:27:15.3139475+03:00;True|2024-06-16T19:16:51.2769788+03:00;True|2024-06-16T18:56:07.9904204+03:00;True|2024-06-16T18:45:26.2794062+03:00;True|2024-06-16T18:41:58.3447861+03:00;True|2024-06-16T17:35:14.1933637+03:00;True|2024-06-16T17:12:56.5800039+03:00;True|2024-06-16T15:25:20.6276852+03:00;True|2024-06-16T15:23:44.7713097+03:00;True|2024-06-16T15:20:01.4946024+03:00;True|2024-06-16T14:35:42.9808280+03:00;True|2024-06-16T13:44:25.9884348+03:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="wwwroot/css/bootstrap.rtl.min.css">
+      <publishTime>09/14/2023 17:10:46</publishTime>
+    </File>
+    <File Include="wwwroot/css/styles.css">
+      <publishTime>05/08/2024 11:23:50</publishTime>
+    </File>
+    <File Include="wwwroot/Homepage.html">
+      <publishTime>06/13/2024 16:04:28</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x.rar">
+      <publishTime>04/05/2024 16:55:32</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 15.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 16.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 18.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 19.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 20.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 21.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 22.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 23.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 24.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 25.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 26.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 27.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 28.png">
+      <publishTime>04/05/2024 13:51:45</publishTime>
+    </File>
+    <File Include="wwwroot/img/1x/Asset 30.jpeg">
+      <publishTime>04/05/2024 14:42:51</publishTime>
+    </File>
+    <File Include="wwwroot/img/user.png">
+      <publishTime>06/13/2024 02:02:43</publishTime>
+    </File>
+    <File Include="wwwroot/img/user2.png">
+      <publishTime>06/13/2024 02:04:44</publishTime>
+    </File>
+    <File Include="wwwroot/img/user3.png">
+      <publishTime>06/13/2024 02:05:12</publishTime>
+    </File>
+    <File Include="wwwroot/infoLv1.html">
+      <publishTime>05/25/2024 14:24:22</publishTime>
+    </File>
+    <File Include="wwwroot/infoQuestion.html">
+      <publishTime>05/26/2024 01:11:12</publishTime>
+    </File>
+    <File Include="wwwroot/js/bootstrap.bundle.min.js">
+      <publishTime>09/14/2023 17:10:46</publishTime>
+    </File>
+    <File Include="wwwroot/js/javascript.js">
+      <publishTime>06/16/2024 15:16:58</publishTime>
+    </File>
+    <File Include="wwwroot/Login.html">
+      <publishTime>06/12/2024 20:51:31</publishTime>
+    </File>
+    <File Include="wwwroot/prototype.html">
+      <publishTime>06/13/2024 16:50:39</publishTime>
+    </File>
+    <File Include="wwwroot/Shop.html">
+      <publishTime>06/14/2024 00:13:43</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

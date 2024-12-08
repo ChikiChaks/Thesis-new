@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Prog3_WebApi_Javascript.props" />
+</Project>

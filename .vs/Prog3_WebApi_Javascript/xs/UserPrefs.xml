@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{BCD2D3D1-9F66-4640-AEA3-5F9CA4C24D3E}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="wwwroot/openai.html">
+    <Files>
+      <File FileName="DTOs/Message.cs" Line="1" Column="1" />
+      <File FileName="wwwroot/index.html" Line="1" Column="1" />
+      <File FileName="wwwroot/js/javascript.js" Line="11" Column="26" />
+      <File FileName="Controllers/GPTController.cs" Line="11" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Prog3_WebApi_Javascript" expanded="True">
+            <Node name="Prog3_WebApi_Javascript" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="DTOs" expanded="True" />
+              <Node name="wwwroot" expanded="True">
+                <Node name="css" expanded="True" />
+                <Node name="js" expanded="True" />
+                <Node name="openai.html" selected="True" />
+              </Node>
+              <Node name="appsettings.json" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Prog3__WebApi__Javascript PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MultiItemStartupConfigurations />
+</Properties>

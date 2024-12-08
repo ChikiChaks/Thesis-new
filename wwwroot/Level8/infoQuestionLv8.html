@@ -1,0 +1,473 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 8 - שאלות</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        #questionsContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px; /* Adjust this value as needed */
+            color: #333;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            #exerciseInfo p {
+                font-size: 20px;
+                color: #525252;
+                font-weight: bold;
+                margin-right: 10px;
+                margin-top: 15px;
+                font-weight: 400;
+            }
+
+            #exerciseInfo img {
+                width: 50px;
+            }
+
+        h2 {
+            color: #5BBCBF;
+            font-weight: bold;
+        }
+
+        h3 {
+            color: black;
+        }
+
+        .boldInst {
+            font-weight: bold;
+        }
+
+        .colored {
+            color: #5BBCBF;
+            font-weight: bold;
+            direction: ltr;
+            text-align: left;
+        }
+
+        #exerciseInfo p {
+            text-align: center;
+        }
+
+        .btn-primary, #checkAnswerBtn, #nextQuestionBtn, #goToPrototypeBtn {
+            background-color: #F3C545 !important;
+            border-color: #F3C545 !important;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-size: 16px;
+            color: black !important;
+            margin-top: 20px;
+        }
+
+            .btn-primary:hover, #checkAnswerBtn:hover, #nextQuestionBtn:hover, #goToPrototypeBtn:hover {
+                background-color: #e6b93c !important;
+                border-color: #e6b93c !important;
+            }
+
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: #F3C545 !important;
+            border-color: #F3C545 !important;
+            border-radius: 50px;
+            color: black !important;
+        }
+
+            .help-btn:hover {
+                background-color: #e6b93c !important;
+                border-color: #e6b93c !important;
+            }
+
+        .question {
+            display: none;
+        }
+
+            .question.active {
+                display: block;
+            }
+
+        .feedback {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .correct-feedback {
+            color: green;
+        }
+
+        .incorrect-feedback {
+            color: red;
+        }
+
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .help-btn:hover {
+                background-color: #218838;
+            }
+
+        /* Styles for the radio buttons in American questions */
+        .american-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 700px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .american-question h3 {
+                font-size: 28px;
+                text-align: left;
+                color: #5BBCBF;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+            }
+
+            .american-question input[type="radio"] {
+                display: none;
+            }
+
+            .american-question label {
+                text-align: right;
+                padding: 10px;
+                border: 3px solid #525252;
+                border-radius: 20px;
+                margin-top: 10px;
+                cursor: pointer;
+                position: relative;
+                width: 390px;
+                margin: 5px;
+                direction: ltr;
+                background-color: white;
+            }
+
+
+        .trial {
+            direction: rtl !important;
+            display: inline-block;
+        }
+
+        .american-question input[type="radio"]:checked + label {
+            border-color: #F3C545;
+            background-color: white;
+        }
+
+        .american-question .checkmark {
+            display: none;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .american-question label.correct .checkmark {
+            display: inline;
+            color: green;
+        }
+
+        .american-question label.incorrect .checkmark {
+            display: inline;
+            color: red;
+        }
+
+        .american-question .feedback {
+            font-size: 18px;
+            text-align: right;
+        }
+
+        /* Styles for the multiple-choice questions */
+        .multiple-choice-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 700px;
+            text-align: center;
+        }
+
+            .multiple-choice-question h3 {
+                text-align: left;
+                display: flex;
+                justify-content: center;
+            }
+
+            .multiple-choice-question input[type="checkbox"] {
+                display: none;
+            }
+
+            .multiple-choice-question label {
+                align-items: center;
+                text-align: right;
+                padding: 10px;
+                border: 3px solid #525252;
+                border-radius: 20px;
+                margin-top: 10px;
+                cursor: pointer;
+                position: relative;
+                width: 350px;
+                margin: 6px;
+                direction: ltr;
+                background-color: white;
+            }
+
+            .multiple-choice-question input[type="checkbox"]:checked + label {
+                border-color: #F3C545;
+                background-color: white;
+            }
+
+            .multiple-choice-question .checkmark {
+                display: none;
+                font-size: 20px;
+                margin-left: 10px; /* Adjust margin to move the checkmark */
+            }
+
+            .multiple-choice-question label.correct .checkmark {
+                display: inline;
+                color: green;
+            }
+
+            .multiple-choice-question label.incorrect .checkmark {
+                display: inline;
+                color: red;
+            }
+
+            .multiple-choice-question .feedback {
+                font-size: 18px;
+            }
+
+        #checkAnswerBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <img src="/img/hook.png" alt="Hook">
+        <p>עכשיו נענה על שאלות. בסיום שלב השאלות נתחיל לתכנת</p>
+    </div>
+
+    <div id="questionsContainer">
+        <div class="question active american-question">
+            <h5>
+                נרצה לשנות את מיקום הדמות star לאחר הנגיעה. האם כדאי להשתמש בפקודת ()ht?
+            </h5>
+            <br />
+            <input type="radio" id="q1a" name="q1" value="bigger">
+            <label for="q1a"><span class="trial">לא </span><span class="checkmark">❌</span></label><br>
+            <input type="radio" id="q1b" name="q1" value="smaller">
+            <label for="q1b"><span class="trial">כן </span><span class="checkmark">✔️</span></label><br>
+            <div class="feedback" id="feedback1"></div>
+            <!--<button class="help-btn" title="בדקו את התנאי בלולאה">רמז</button>-->
+        </div>
+        <div class="question multiple-choice-question">
+            <h5>
+                התבונן בשורת הקוד וחשוב מה יקרה.
+            </h5>
+            <br />
+            <h3 class="colored">
+                Star.ht()
+            </h3>
+            <br />
+            <h5>
+               בחרו בכל התשובות המתאימות.
+            </h5>
+            <input type="checkbox" id="q2a" name="q2" value="forever">
+            <label for="q2a">נגיעה בדמות הכוכב תוסיף אותו<span class="checkmark">❌</span></label><br>
+            <input type="checkbox" id="q2b" name="q2" value="stop">
+            <label for="q2b">נגיעה בדמות הכוכב תעלים אותו <span class="checkmark">✔️</span></label><br>
+            <input type="checkbox" id="q2c" name="q2" value="crash">
+            <label for="q2c">לא יקרה כלום <span class="checkmark">❌</span></label><br>
+            <div class="feedback" id="feedback2"></div>
+            <!--<button class="help-btn" title="בדקו את התנאי בלולאה">רמז</button>-->
+        </div>
+        <button id="checkAnswerBtn" disabled>בדקו תשובה</button>
+        <button id="nextQuestionBtn" style="display: none;">לשאלה הבאה</button>
+        <button id="goToPrototypeBtn" style="display: none;">בואו נתחיל לתכנת</button>
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const checkAnswerButton = document.getElementById('checkAnswerBtn');
+            const nextQuestionButton = document.getElementById('nextQuestionBtn');
+            const goToPrototypeButton = document.getElementById('goToPrototypeBtn');
+            const islandName = 'Island 8';
+            const maxScore = 60; // Max score for this section
+            let currentScore = maxScore;
+            let currentQuestion = 0;
+
+            const answers = [
+                {
+                    question: 0,
+                    correct: 'smaller',
+                    correctFeedback: 'נכון מאוד. נשתמש בפקודת ()ht כשנרצה להעלים דמות מהמסך לגמרי. אם נשתמש בפקודה נצטרך ליצור את הדמות מחדש לכן הפקודה לא מתאימה.',
+                    wrongFeedback: 'טעות. נשתמש בפקודת ()ht כשנרצה להעלים דמות מהמסך לגמרי. אם נשתמש בפקודה נצטרך ליצור את הדמות מחדש לכן הפקודה לא מתאימה.'
+                },
+                {
+                    question: 1,
+                    correct: ['stop'],
+                    correctFeedback: 'נכון מאוד. נגיעה בדמות הכוכב תעלים אותו.',
+                    wrongFeedback: 'לטעות. נגיעה בדמות הכוכב תעלים אותו.'
+                }
+            ];
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.classList.toggle('active', i === index);
+                });
+            }
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = maxScore / answers.length;
+                    currentScore -= penalty;
+                }
+                const levelKey = `${islandName}ScoreAmerican`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            function enableCheckAnswerButton() {
+                checkAnswerButton.disabled = false;
+            }
+
+            questions.forEach(question => {
+                const inputs = question.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+                inputs.forEach(input => {
+                    input.addEventListener('change', enableCheckAnswerButton);
+                });
+            });
+
+            checkAnswerButton.addEventListener('click', () => {
+                const currentQuestionElement = questions[currentQuestion];
+                let isCorrect = false;
+                let feedback = '';
+
+                if (currentQuestion === 0) {
+                    const selectedAnswer = currentQuestionElement.querySelector('input[type="radio"]:checked');
+                    if (selectedAnswer) {
+                        isCorrect = selectedAnswer.value === answers[currentQuestion].correct;
+                        feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+
+                        const label = selectedAnswer.nextElementSibling;
+                        const checkmark = label.querySelector('.checkmark');
+                        label.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        checkmark.style.display = 'inline';
+                    }
+                } else {
+                    const selectedAnswers = Array.from(currentQuestionElement.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+                    isCorrect = selectedAnswers.length === answers[currentQuestion].correct.length && selectedAnswers.every(val => answers[currentQuestion].correct.includes(val));
+                    feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+
+                    const checkboxes = currentQuestionElement.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => {
+                        const label = checkbox.nextElementSibling;
+                        const checkmark = label.querySelector('.checkmark');
+                        if (answers[currentQuestion].correct.includes(checkbox.value)) {
+                            label.classList.add('correct');
+                            checkmark.style.display = 'inline';
+                        } else if (checkbox.checked) {
+                            label.classList.add('incorrect');
+                            checkmark.style.display = 'inline';
+                        }
+                    });
+                }
+
+                const feedbackElement = currentQuestionElement.querySelector('.feedback');
+                feedbackElement.innerHTML = isCorrect
+                    ? `<div class="correct-feedback"><span class="feedback-icon">✔️</span>${feedback}</div>`
+                    : `<div class="incorrect-feedback"><span class="feedback-icon">❌</span>${feedback}</div>`;
+
+                updateScore(isCorrect);
+
+                checkAnswerButton.style.display = 'none';
+                if (currentQuestion < questions.length - 1) {
+                    nextQuestionButton.style.display = 'inline-block';
+                } else {
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            nextQuestionButton.addEventListener('click', () => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    checkAnswerButton.style.display = 'inline-block';
+                    checkAnswerButton.disabled = true;
+                    nextQuestionButton.style.display = 'none';
+                } else {
+                    nextQuestionButton.style.display = 'none';
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            showQuestion(currentQuestion);
+
+            goToPrototypeButton.addEventListener('click', () => {
+                window.location.href = 'prototypeLv8.html';
+            });
+        });
+    </script>
+</body>
+</html>

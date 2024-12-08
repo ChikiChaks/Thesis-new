@@ -1,0 +1,527 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 9 - שאלות</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+            color: #333;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            #exerciseInfo p {
+                font-size: 20px;
+                color: #525252;
+                font-weight: bold;
+                margin-right: 10px;
+                margin-top: 15px;
+                font-weight: 400;
+            }
+
+            #exerciseInfo img {
+                width: 50px;
+            }
+
+        #questionsContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        h2, h3 {
+            color: #5BBCBF;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #questionsContainer p {
+            text-align: center;
+            width: 680px;
+        }
+
+        .btn-primary, .help-btn, #checkAnswerBtn, #nextQuestionBtn, #goToPrototypeBtn {
+            background-color: #F3C545 !important;
+            border-color: #F3C545 !important;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-size: 16px;
+            color: black !important;
+            margin-top: 20px;
+        }
+
+            .btn-primary:hover, .help-btn:hover, #checkAnswerBtn:hover, #nextQuestionBtn:hover, #goToPrototypeBtn:hover {
+                background-color: #e6b93c !important;
+                border-color: #e6b93c !important;
+            }
+
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #checkAnswerBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .question {
+            display: none;
+        }
+
+            .question.active {
+                display: block;
+            }
+
+        .feedback {
+            color: red;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .correct-feedback {
+            color: green;
+            display: flex;
+            align-items: center;
+        }
+
+        .incorrect-feedback {
+            color: red;
+            display: flex;
+            align-items: center;
+        }
+
+        .feedback-icon {
+            margin-right: 5px;
+        }
+
+        .draggable {
+            display: inline-block;
+            padding: 5px 15px; /* Reduced padding */
+            background-color: #f1f1f1;
+            border: 2px solid #525252;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .droppable {
+            position: relative;
+            display: inline-block;
+            width: 80px; /* Reduced width */
+            height: 30px; /* Reduced height */
+            background-color: #e0e0e0;
+            border: 2px dashed #525252;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .output-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .output-table td {
+                border: 1px solid #5BBCBF;
+                padding: 8px;
+                text-align: center;
+                font-weight: bold;
+                color: #5BBCBF;
+            }
+
+        .first-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+            .first-question h3 {
+                font-size: 18px;
+                color: #525252;
+                font-weight: 400;
+            }
+
+            .first-question h2 {
+                font-size: 30px;
+                color: #5BBCBF;
+                text-align: center;
+                direction: ltr;
+                margin-bottom: 25px;
+                margin-top: 25px;
+            }
+
+            .first-question input[type="text"] {
+                padding: 10px;
+                font-size: 18px;
+                border: 2px solid #525252;
+                border-radius: 5px;
+                margin-top: 10px;
+                margin-right: 10px;
+            }
+
+            .first-question .feedback {
+                font-size: 18px;
+            }
+
+        .hook-image {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 50px;
+        }
+
+        .feedback {
+            margin-top: 20px;
+        }
+
+        .correct-feedback span.feedback-icon,
+        .incorrect-feedback span.feedback-icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        /* Styles for the radio buttons in American questions */
+        .american-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 700px;
+            text-align: center;
+        }
+
+            .american-question h3 {
+                font-size: 18px;
+                color: #525252;
+                font-weight: 400;
+                text-align: center;
+            }
+
+            .american-question input[type="radio"] {
+                display: none;
+            }
+
+            .american-question label {
+                text-align: right;
+                padding: 10px;
+                border: 3px solid #525252;
+                border-radius: 20px;
+                margin-top: 10px;
+                cursor: pointer;
+                position: relative;
+                width: 530px;
+                margin: 5px;
+                direction: ltr;
+                background-color: white;
+            }
+
+            .american-question input[type="radio"]:checked + label {
+                border-color: #F3C545;
+                background-color: white;
+            }
+
+            .american-question .checkmark {
+                display: none;
+                font-size: 20px;
+                margin-left: 10px;
+            }
+
+            .american-question label.correct .checkmark {
+                display: inline;
+                color: green;
+            }
+
+            .american-question label.incorrect .checkmark {
+                display: inline;
+                color: red;
+            }
+
+            .american-question .feedback {
+                font-size: 18px;
+            }
+
+        /* Additional styling for the drag-and-drop question */
+        .drag-and-drop-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 700px;
+            text-align: center;
+        }
+
+            .drag-and-drop-question p {
+                font-size: 18px;
+                color: #525252;
+                font-weight: 400;
+                text-align: right;
+                padding: 4px;
+                margin-top: 10px;
+                cursor: pointer;
+                position: relative;
+                width: 350px;
+                margin: 5px;
+            }
+
+        .drag-container {
+            justify-content: space-between;
+            margin-top: 20px;
+            margin: 35px;
+            flex-wrap: nowrap;
+            direction: ltr;
+            gap: 5px; /* Added gap for better spacing control */
+        }
+
+        .rtl-container {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <img src="/img/hook.png" alt="Hook">
+        <p>עכשיו נענה על שאלות. בסיום שלב השאלות נתחיל לתכנת</p>
+    </div>
+    <div id="questionsContainer">
+        <div class="question active american-question first-question">
+          
+            <h5>
+                ניצור לולאה. ניצור משתנה x שיגדל ב-1 בכל סיבוב של הלולאה.
+                מהי הדרך הנכונה להגדיר את המשתנה?
+            </h5>
+            <p>בחרו בתשובה הנכונה</p>
+            <br />
+            <input type="radio" id="q1a" name="q1" value="20">
+            <label for="q1a">x = x + 1 <span class="checkmark"></span></label><br>
+            <input type="radio" id="q1b" name="q1" value="location">
+            <label for="q1b">x =< 1<span class="checkmark"></span></label><br>
+            <div class="feedback" id="feedback1"></div>
+            <!--<button class="help-btn" title="בדקו את התנאי בלולאה">רמז</button>-->
+        </div>
+        <div class="question drag-and-drop-question">
+            <h5> נקח את שתי הדמויות שיצרנו על המסך - cat ו-dog ונבדוק את המרחק ביניהן. אם המרחק בין הכלב לחתול קטן מ-20, נדפיס הודעה.</h5>
+            <p>השלימו את הקוד.</p>
+            <div class="drag-container rtl-container">
+                
+                <div class="droppable" id="drop1"></div>
+                
+                <div class="droppable" id="drop2"></div>
+                
+                <div class="droppable" id="drop3"></div>
+                <div class="fixed">1</div>
+            </div>
+            <p style="text-align: left; margin-right: -50px;">print(too close)</p>
+            <div class="drag-container">
+                <div class="draggable" draggable="true" id="drag1">+</div>
+                <div class="draggable" draggable="true" id="drag2">X</div>
+                <div class="draggable" draggable="true" id="drag3">=</div>
+            </div>
+            <div class="feedback" id="feedback2"></div>
+        </div>
+        <button id="checkAnswerBtn" disabled>בדקו תשובה</button>
+        <button id="nextQuestionBtn" style="display: none;">לשאלה הבאה</button>
+        <button id="goToPrototypeBtn" style="display: none;">בואו נתחיל לתכנת</button>
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const checkAnswerButton = document.getElementById('checkAnswerBtn');
+            const nextButton = document.getElementById('nextQuestionBtn');
+            const goToPrototypeButton = document.getElementById('goToPrototypeBtn');
+            const islandName = 'Island 9';
+            const maxScore = 60; // Max score for this section
+            let currentScore = maxScore;
+            let currentQuestion = 0;
+
+            const answers = [
+                {
+                    question: 0,
+                    correct: '20',
+                    correctFeedback: 'נכון מאוד! אנו מוסיפים 1 לערך של x ושומרים אותו בתור הערך החדש של המשתנה.',
+                    wrongFeedback: 'לא נכון. אנו מוסיפים 1 לערך של x ושומרים אותו בתור הערך החדש של המשתנה.'
+                },
+                {
+                    question: 1,
+                    correct: ['X', '+', '='],
+                    correctFeedback: 'נכון מאוד! הקוד המלא הוא: x += 1',
+                    wrongFeedback: 'לא נכון. הקוד המלא הוא: x += 1'
+                }
+            ];
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.classList.toggle('active', i === index);
+                });
+            }
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = maxScore / answers.length;
+                    currentScore -= penalty;
+                }
+                const levelKey = `${islandName}ScoreAmerican`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            function showFeedback(isCorrect, feedbackText) {
+                const feedbackElement = questions[currentQuestion].querySelector('.feedback');
+                feedbackElement.innerHTML = isCorrect
+                    ? `<div class="correct-feedback"><span class="feedback-icon">✔️</span>${feedbackText}</div>`
+                    : `<div class="incorrect-feedback"><span class="feedback-icon">❌</span>${feedbackText}</div>`;
+            }
+
+            function checkAnswers() {
+                const currentQuestionElement = questions[currentQuestion];
+                let isCorrect = false;
+                let feedback = '';
+
+                if (currentQuestion === 0) {
+                    const selectedAnswer = currentQuestionElement.querySelector('input[type="radio"]:checked');
+                    if (selectedAnswer) {
+                        isCorrect = selectedAnswer.value === answers[currentQuestion].correct;
+                        feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+
+                        const label = selectedAnswer.nextElementSibling;
+                        const checkmark = label.querySelector('.checkmark');
+                        label.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        if (checkmark) {
+                            checkmark.style.display = 'inline';
+                            checkmark.textContent = isCorrect ? '✔️' : '❌';
+                        }
+                    }
+                } else {
+                    const userAnswers = Array.from(currentQuestionElement.querySelectorAll('.droppable')).map(zone => zone.textContent.trim());
+                    isCorrect = answers[currentQuestion].correct.every((val, index) => val === userAnswers[index]);
+                    feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+                }
+
+                showFeedback(isCorrect, feedback);
+                updateScore(isCorrect);
+            }
+
+            function updateButtonState() {
+                if (currentQuestion === 0) {
+                    const selectedAnswer = questions[currentQuestion].querySelector('input[type="radio"]:checked');
+                    checkAnswerButton.disabled = !selectedAnswer;
+                } else {
+                    const filledSlots = Array.from(questions[currentQuestion].querySelectorAll('.droppable')).every(zone => zone.textContent.trim() !== '');
+                    checkAnswerButton.disabled = !filledSlots;
+                }
+            }
+
+            checkAnswerButton.addEventListener('click', () => {
+                checkAnswers();
+                checkAnswerButton.style.display = 'none';
+                if (currentQuestion < questions.length - 1) {
+                    nextButton.style.display = 'inline-block';
+                } else {
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    checkAnswerButton.style.display = 'inline-block';
+                    checkAnswerButton.disabled = true; // Disable the button by default for the new question
+                    nextButton.style.display = 'none';
+                    updateButtonState(); // Update the button state for the new question
+                } else {
+                    nextButton.style.display = 'none';
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            const draggables = document.querySelectorAll('.draggable');
+            const droppables = document.querySelectorAll('.droppable');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                    updateButtonState(); // Update the button state after dragging
+                });
+            });
+
+            droppables.forEach(droppable => {
+                droppable.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const dragging = document.querySelector('.dragging');
+                    droppable.appendChild(dragging);
+                });
+
+                droppable.addEventListener('drop', () => {
+                    updateButtonState(); // Update the button state after dropping
+                });
+            });
+
+            const radios = document.querySelectorAll('input[type="radio"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', updateButtonState); // Update the button state when a radio button is selected
+            });
+
+            showQuestion(currentQuestion);
+
+            goToPrototypeButton.addEventListener('click', () => {
+                window.location.href = 'prototypeLv9.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 3 - שאלות</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+            color: #333;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            #exerciseInfo p {
+                font-size: 20px;
+                color: #525252;
+                font-weight: bold;
+                margin-right: 10px;
+                margin-top: 15px;
+                font-weight: 400;
+            }
+
+            #exerciseInfo img {
+                width: 50px;
+            }
+
+        #questionsContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        code {
+            direction: ltr;
+            unicode-bidi: embed;
+        }
+
+        h2, h3 {
+            color: #5BBCBF;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #questionsContainer p {
+            text-align: center;
+        }
+
+        .btn-primary, .help-btn, #checkAnswerBtn, #nextQuestionBtn, #goToPrototypeBtn {
+            background-color: #F3C545 !important;
+            border-color: #F3C545 !important;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-size: 16px;
+            color: black !important;
+            margin-top: 20px;
+        }
+
+            .btn-primary:hover, .help-btn:hover, #checkAnswerBtn:hover, #nextQuestionBtn:hover, #goToPrototypeBtn:hover {
+                background-color: #e6b93c !important;
+                border-color: #e6b93c !important;
+            }
+
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #checkAnswerBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .question {
+            display: none;
+        }
+
+            .question.active {
+                display: block;
+            }
+
+        .feedback {
+            color: red;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .correct-feedback {
+            color: green;
+            align-items: center;
+        }
+
+        .incorrect-feedback {
+            color: red;
+            align-items: center;
+        }
+
+        .feedback-icon {
+            margin-right: 5px;
+        }
+
+        .hook-image {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 50px;
+        }
+
+        .feedback {
+            margin-top: 20px;
+        }
+
+        .correct-feedback span.feedback-icon,
+        .incorrect-feedback span.feedback-icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        /* Styles for the radio buttons in American questions */
+        .american-question {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 700px;
+            text-align: center;
+        }
+
+            .american-question h3 {
+                font-size: 18px;
+                color: #525252;
+                font-weight: 400;
+                text-align: center;
+            }
+
+            .american-question input[type="radio"] {
+                display: none;
+            }
+
+            .american-question label {
+                text-align: center;
+                padding: 10px;
+                border: 3px solid #525252;
+                border-radius: 10px;
+                margin-top: 10px;
+                cursor: pointer;
+                position: relative;
+                width: 100px;
+                margin: 5px;
+                direction: ltr;
+                height: 45px;
+                display: inline-block; /* Make labels inline-block to display side by side */
+                background-color: white;
+            }
+
+            .american-question input[type="radio"]:checked + label {
+                border-color: #F3C545;
+                background-color: white;
+            }
+
+            .american-question .checkmark {
+                display: none;
+                font-size: 20px;
+                margin-left: 10px;
+            }
+
+            .american-question label.correct .checkmark {
+                display: inline;
+                color: green;
+            }
+
+            .american-question label.incorrect .checkmark {
+                display: inline;
+                color: red;
+            }
+
+            .american-question .feedback {
+                font-size: 18px;
+            }
+
+        .colored {
+            font-size: 18px;
+            font-weight: 400;
+            text-align: right;
+            direction: rtl;
+        }
+
+            .colored select {
+                margin-left: 10px; /* Add margin to separate select box from text */
+            }
+
+            .colored span.feedback-icon {
+                margin-left: 10px; /* Add margin to separate icon from text */
+                font-size: 24px;
+            }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <img src="/img/hook.png" alt="Hook">
+        <p>עכשיו נענה על שאלות. בסיום שלב השאלות נתחיל לתכנת</p>
+    </div>
+
+    <div id="questionsContainer">
+        <div class="question active american-question">
+            <h5>על מנת לגרום לדמות לזוז על גבי המסך שלנו, ניצור פונקציה.</h5>
+            <h5>קראו את המשפט ובחרו נכון / לא נכון</h5>
+            <h5>פונקציה היא אוסף פקודות שאפשר להפעיל אותם מתי שנרצה</h5>
+
+            <input type="radio" id="q1a" name="q1" value="True">
+            <label for="q1a">נכון</label>
+            <input type="radio" id="q1b" name="q1" value="False">
+            <label for="q1b">לא נכון</label>
+            <div class="feedback" id="feedback1"></div>
+            <!--<button class="help-btn" title="נסו לחשוב מתי נשתמש בפונקציה">רמז</button>-->
+        </div>
+        <div class="question american-question">
+            <h5>אנחנו רוצים שהדמות שלנו תזוז על המסך ימינה ב-20 צעדים כל פעם. מה סדר הפעולות אותו נצטרך לעשות?</h5>
+            <h5>מספרו את סדר הפעולות אותו נצטרך לבצע מ-1 עד 3.</h5>
+            <div>
+                <h4 class="colored">
+                    ניצור פונקציה באמצעות פקודת <code>def()</code> וניתן לה שם משמעותי
+                    <select class="arrange-select" id="q2a">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <span class="feedback-icon" id="q2a-icon"></span>
+                </h4>
+                <br />
+                <h4 class="colored">
+                    נאמר לדמות שלנו לזוז 20 צעדים מהמיקום הנוכחי שלה בעזרת פקודת <code>setx()</code> שאומרת לדמות לאן ללכת על ציר האיקס
+                    <select class="arrange-select" id="q2b">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <span class="feedback-icon" id="q2b-icon"></span>
+                </h4>
+                <br />
+                <h4 class="colored">
+                    נשמור את המיקום הנוכחי של הדמות על ציר האיקס (ימינה ושמאלה) באמצעות פקודת <code>xcor()</code> ונשמור במשתנה
+                    <select class="arrange-select" id="q2c">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <span class="feedback-icon" id="q2c-icon"></span>
+                </h4>
+            </div>
+            <div class="feedback" id="feedback2"></div>
+            <!--<button class="help-btn" title="Arrange the steps in the correct order.">רמז</button>-->
+        </div>
+        <button id="checkAnswerBtn">בדקו תשובה</button>
+        <button id="nextQuestionBtn" style="display: none;">לשאלה הבאה</button>
+        <button id="goToPrototypeBtn" style="display: none;">בואו נתחיל לתכנת</button>
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const checkAnswerButton = document.getElementById('checkAnswerBtn');
+            const nextButton = document.getElementById('nextQuestionBtn');
+            const goToPrototypeButton = document.getElementById('goToPrototypeBtn');
+            const islandName = 'Island 3';
+            const maxScore = 60;
+            let currentScore = maxScore;
+            let currentQuestion = 0;
+
+            const answers = [
+                {
+                    question: 0,
+                    correct: 'True',
+                    correctFeedback: 'נכון מאוד! פונקציה אכן מאפשרת לנו להפעיל אותה מתי שנרצה',
+                    wrongFeedback: 'אופס טעות, פונקציה אכן מאפשרת לנו להפעיל אותה מתי שנרצה'
+                },
+                {
+                    question: 1,
+                    correct: ['1', '3', '2'],
+                    correctFeedback: `כל הכבוד!<br>
+            1. ניצור פונקציה באמצעות פקודת <code>def()</code> וניתן לה שם משמעותי<br>
+            2. נשמור את המיקום הנוכחי של הדמות על ציר האיקס (ימינה ושמאלה) באמצעות פקודת <code>xcor()</code> ונשמור במשתנה<br>
+            3. נאמר לדמות שלנו לזוז 20 צעדים מהמיקום הנוכחי שלה בעזרת פקודת <code>setx()</code> שאומרת לדמות לאן ללכת על ציר האיקס`,
+                    wrongFeedback: `לא נכון. סדר הפעולות הוא:<br>
+            1. ניצור פונקציה באמצעות פקודת <code>def()</code> וניתן לה שם משמעותי<br>
+            2. נשמור את המיקום הנוכחי של הדמות על ציר האיקס (ימינה ושמאלה) באמצעות פקודת <code>xcor()</code> ונשמור במשתנה<br>
+            3. נאמר לדמות שלנו לזוז 20 צעדים מהמיקום הנוכחי שלה בעזרת פקודת <code>setx()</code> שאומרת לדמות לאן ללכת על ציר האיקס`
+                }
+            ];
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.classList.toggle('active', i === index);
+                });
+            }
+
+            function showHelpText(event) {
+                const helpText = event.target.getAttribute('title');
+                if (helpText) {
+                    const helpBox = document.createElement('div');
+                    helpBox.classList.add('help-box');
+                    helpBox.textContent = helpText;
+                    event.target.parentNode.insertBefore(helpBox, event.target.nextSibling);
+                    setTimeout(() => {
+                        helpBox.remove();
+                    }, 3000);
+                }
+            }
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = maxScore / answers.length;
+                    currentScore -= penalty;
+                }
+                const levelKey = `${islandName}ScoreAmerican`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            const helpButtons = document.querySelectorAll('.help-btn');
+            helpButtons.forEach(button => {
+                button.addEventListener('click', showHelpText);
+            });
+
+            function checkAnswers() {
+                const currentQuestionElement = questions[currentQuestion];
+                let isCorrect = false;
+
+                if (currentQuestion === 1) {
+                    const userAnswers = [
+                        document.getElementById('q2a').value,
+                        document.getElementById('q2b').value,
+                        document.getElementById('q2c').value
+                    ];
+
+                    isCorrect = answers[currentQuestion].correct.every((val, index) => val === userAnswers[index]);
+
+                    // Display feedback icons
+                    userAnswers.forEach((answer, index) => {
+                        const correctAnswer = answers[currentQuestion].correct[index];
+                        const iconElement = document.getElementById(`q2${String.fromCharCode(97 + index)}-icon`);
+                        iconElement.textContent = answer === correctAnswer ? '✔️' : '❌';
+                        iconElement.style.color = answer === correctAnswer ? 'green' : 'red';
+                    });
+                } else {
+                    const selectedAnswer = currentQuestionElement.querySelector('input[type="radio"]:checked');
+                    isCorrect = selectedAnswer && selectedAnswer.value === answers[currentQuestion].correct;
+                }
+
+                return isCorrect;
+            }
+
+            function updateButtonState() {
+                const currentQuestionElement = questions[currentQuestion];
+                let isAnswered = false;
+
+                if (currentQuestion === 1) {
+                    const userAnswers = [
+                        document.getElementById('q2a').value,
+                        document.getElementById('q2b').value,
+                        document.getElementById('q2c').value
+                    ];
+
+                    isAnswered = userAnswers.every(val => val !== '');
+                } else {
+                    const selectedAnswer = currentQuestionElement.querySelector('input[type="radio"]:checked');
+                    isAnswered = !!selectedAnswer;
+                }
+
+                checkAnswerButton.disabled = !isAnswered;
+            }
+
+            questions.forEach(question => {
+                const inputs = question.querySelectorAll('input[type="radio"], select.arrange-select');
+                inputs.forEach(input => {
+                    input.addEventListener('change', updateButtonState);
+                });
+            });
+
+            checkAnswerButton.addEventListener('click', () => {
+                const isCorrect = checkAnswers();
+                const feedbackElement = document.getElementById(`feedback${currentQuestion + 1}`);
+
+                feedbackElement.innerHTML = isCorrect
+                    ? `<div class="correct-feedback"><span class="feedback-icon">✔️</span>${answers[currentQuestion].correctFeedback}</div>`
+                    : `<div class="incorrect-feedback"><span class="feedback-icon">❌</span>${answers[currentQuestion].wrongFeedback}</div>`;
+
+                updateScore(isCorrect);
+
+                checkAnswerButton.style.display = 'none';
+
+                if (currentQuestion < questions.length - 1) {
+                    nextButton.style.display = 'inline-block';
+                } else {
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    checkAnswerButton.style.display = 'inline-block';
+                    checkAnswerButton.disabled = true;
+                    nextButton.style.display = 'none';
+                }
+            });
+
+            showQuestion(currentQuestion);
+
+            goToPrototypeButton.addEventListener('click', () => {
+                window.location.href = 'prototypeLv3.html';
+            });
+        });
+    </script>
+</body>
+</html>

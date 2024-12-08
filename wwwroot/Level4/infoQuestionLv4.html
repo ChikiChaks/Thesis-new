@@ -1,0 +1,484 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>שלב 4 - שאלות</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF9F5;
+            font-family: 'Fredoka', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        #questionsContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px;
+            color: #333;
+        }
+
+        #exerciseInfo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            #exerciseInfo p {
+                font-size: 20px;
+                color: #525252;
+                font-weight: bold;
+                margin-right: 10px;
+                margin-top: 15px;
+                font-weight: 400;
+            }
+
+            #exerciseInfo img {
+                width: 50px;
+            }
+
+        h2, h3 {
+            color: #5BBCBF;
+            font-weight: bold;
+        }
+
+        .btn-primary, .help-btn, #checkAnswerBtn, #nextQuestionBtn, #goToPrototypeBtn {
+            background-color: #F3C545 !important;
+            border-color: #F3C545 !important;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-size: 16px;
+            color: black !important;
+            margin-top: 20px;
+        }
+
+            .btn-primary:hover, .help-btn:hover, #checkAnswerBtn:hover, #nextQuestionBtn:hover, #goToPrototypeBtn:hover {
+                background-color: #e6b93c !important;
+                border-color: #e6b93c !important;
+            }
+
+        .question {
+            display: none;
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 700px;
+            text-align: center;
+        }
+
+            .question.active {
+                display: block;
+            }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .correct-feedback {
+            color: green;
+            display: flex;
+            align-items: center;
+        }
+
+        .incorrect-feedback {
+            color: red;
+            display: flex;
+            align-items: center;
+        }
+
+        .feedback-icon {
+            margin-right: 5px;
+        }
+
+        .help-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .help-btn:hover {
+                background-color: #218838;
+            }
+
+        .drag-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            direction: rtl;
+        }
+
+        .drop-zone {
+            width: 90px;
+            height: 50px;
+            background-color: #e0e0e0;
+            border: 2px dashed #525252;
+            border-radius: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+        }
+
+        .draggable {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #f1f1f1;
+            border: 2px solid #525252;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+            .draggable.dragging {
+                opacity: 0.5;
+            }
+
+        .fixed {
+            padding: 10px;
+            background-color: #e9ecef;
+            color: black;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        /* Styles for the American question */
+        .american-question h3 {
+            font-size: 30px;
+            color: #5BBCBF;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .american-question input[type="radio"] {
+            display: none;
+        }
+
+        .american-question label {
+            text-align: right;
+            padding: 10px;
+            border: 3px solid #525252;
+            border-radius: 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            position: relative;
+            width: 470px;
+            margin: 5px;
+            direction: rtl;
+            background-color: white;
+        }
+
+        .american-question input[type="radio"]:checked + label {
+            border-color: #F3C545;
+            background-color: white;
+        }
+
+        .american-question .checkmark {
+            display: none;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .american-question label.correct .checkmark {
+            display: inline;
+            color: green;
+        }
+
+        .american-question label.incorrect .checkmark {
+            display: inline;
+            color: red;
+        }
+
+        .american-question .feedback {
+            font-size: 18px;
+        }
+
+        #checkAnswerBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="exerciseInfo">
+        <img src="/img/hook.png" alt="Hook">
+        <p>עכשיו נענה על שאלות. בסיום שלב השאלות נתחיל לתכנת</p>
+    </div>
+
+    <div id="questionsContainer">
+        <div class="question active">
+            <h5>על מנת שפונקציה תעבוד בלחיצה על כפתור במקלדת, אנחנו צריכים להגדיר למסך שהוא צריך להאזין ללחיצות על המקלדת.</h5>
+            <p>סדרו את הקוד לפי הסדר המתאים על מנת להגדיר האזנה של המסך למקלדת:</p>
+            <div class="drag-container">
+                <div class="drop-zone" id="drop1"></div>
+                <div class="drop-zone" id="drop2"></div>
+                <div class="drop-zone" id="drop3"></div>
+                <div class="drop-zone" id="drop4"></div>
+            </div>
+            <div class="drag-container">
+                <div class="draggable" draggable="true" id="drag1">Screen</div>
+                <div class="draggable" draggable="true" id="drag2">listen.</div>
+                <div class="draggable" draggable="true" id="drag3">)</div>
+                <div class="draggable" draggable="true" id="drag4">(</div>
+            </div>
+            <div class="feedback" id="feedback1"></div>
+        </div>
+        <div class="question american-question">
+            <h5><code>onKey</code> הוא אירוע שאומר למסך שאם המשתמש לוחץ על מקש כלשהו במקלדת הוא צריך להפעיל פונקציה</h5>
+            <p>הביטו בשורת הקוד ובחרו בתשובה המתארת את מה שהיא תעשה</p>
+            <br />
+            <h3 class="colored">
+                Screen.onKey(moveRight, "Right")
+            </h3>
+            <br />
+            <input type="radio" id="q2a" name="q2" value="keyboard">
+            <label for="q2a"><span class="checkmark">✔️</span> בלחיצה על מקש ימינה במקלדת תפעל פונקציה moveRight</label><br>
+            <input type="radio" id="q2b" name="q2" value="mouse">
+            <label for="q2b"><span class="checkmark">❌</span> בלחיצה עם העכבר על המסך תפעל פונקציה moveRight</label><br>
+            <div class="feedback" id="feedback2"></div>
+        </div>
+        <div class="question">
+            <h5>סדרו את הקוד בסדר הנכון</h5>
+            <div class="drag-container">
+                <div class="fixed">(</div>
+                <div class="drop-zone" id="drop6"></div>
+                <div class="fixed">,</div>
+                <div class="drop-zone" id="drop7"></div>
+                <div class="fixed">)</div>
+                <div class="drop-zone" id="drop5"></div>
+                <div class="fixed">Screen</div>
+            </div>
+            <div class="drag-container">
+                <div class="draggable" draggable="true" id="drag5">onKey.</div>
+                <div class="draggable" draggable="true" id="drag6">moveRight</div>
+                <div class="draggable" draggable="true" id="drag7">"Right"</div>
+            </div>
+            <div class="feedback" id="feedback3"></div>
+        </div>
+        <button id="checkAnswerBtn" disabled>בדקו תשובה</button>
+        <button id="nextQuestionBtn" style="display: none;">לשאלה הבאה</button>
+        <button id="goToPrototypeBtn" style="display: none;">בואו נתחיל לתכנת</button>
+    </div>
+
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const checkAnswerButton = document.getElementById('checkAnswerBtn');
+            const nextButton = document.getElementById('nextQuestionBtn');
+            const goToPrototypeButton = document.getElementById('goToPrototypeBtn');
+            const islandName = 'Island 4';
+            const maxScore = 60; // Max score for this section
+            let currentScore = maxScore;
+            let currentQuestion = 0;
+
+            const answers = [
+                {
+                    question: 0,
+                    correct: ['(', ')', 'listen.', 'Screen'],
+                    correctFeedback: 'נכון מאוד! סדר הפעולות הוא: <span style="direction:ltr;">Screen.listen()</span>',
+                    wrongFeedback: 'אופס טעות, סדר הפעולות הוא: <span style="direction:ltr;">Screen.listen()</span>'
+                },
+                {
+                    question: 1,
+                    correct: 'keyboard',
+                    correctFeedback: 'נכון מאוד! בלחיצה על מקש ימינה במקלדת תפעל פונקציה moveRight',
+                    wrongFeedback: 'כמעט הצלחת! בלחיצה על מקש ימינה במקלדת תפעל פונקציה moveRight'
+                },
+                {
+                    question: 2,
+                    correct: ['"Right"', 'moveRight', 'onKey.'],
+                    correctFeedback: 'נכון מאוד! סדר הפעולות הוא: Screen.onKey(moveRight, "Right").',
+                    wrongFeedback: 'אופס טעות, סדר הפעולות הוא: Screen.onKey(moveRight, "Right").'
+                }
+            ];
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.classList.toggle('active', i === index);
+                });
+            }
+
+            function showHelpText(event) {
+                const helpText = event.target.getAttribute('title');
+                if (helpText) {
+                    const helpBox = document.createElement('div');
+                    helpBox.classList.add('help-box');
+                    helpBox.textContent = helpText;
+                    event.target.parentNode.insertBefore(helpBox, event.target.nextSibling);
+                    setTimeout(() => {
+                        helpBox.remove();
+                    }, 3000); // Remove the help box after 3 seconds
+                }
+            }
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = maxScore / answers.length;
+                    currentScore -= penalty;
+                }
+                const levelKey = `${islandName}ScoreAmerican`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            const helpButtons = document.querySelectorAll('.help-btn');
+            helpButtons.forEach(button => {
+                button.addEventListener('click', showHelpText);
+            });
+
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                    updateCheckAnswerButtonState();
+                });
+            });
+
+            dropZones.forEach(dropZone => {
+                dropZone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const dragging = document.querySelector('.dragging');
+                    dropZone.appendChild(dragging);
+                });
+
+                dropZone.addEventListener('drop', () => {
+                    updateCheckAnswerButtonState();
+                });
+            });
+
+            function updateCheckAnswerButtonState() {
+                const currentQuestionElement = questions[currentQuestion];
+                if (currentQuestion === 0 || currentQuestion === 2) {
+                    const dropZones = currentQuestionElement.querySelectorAll('.drop-zone');
+                    const allFilled = Array.from(dropZones).every(dropZone => dropZone.textContent.trim() !== '');
+                    checkAnswerButton.disabled = !allFilled;
+                } else if (currentQuestion === 1) {
+                    const selectedAnswer = currentQuestionElement.querySelector('input[type="radio"]:checked');
+                    checkAnswerButton.disabled = !selectedAnswer;
+                }
+            }
+
+            const radios = document.querySelectorAll('input[type="radio"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', updateCheckAnswerButtonState);
+            });
+
+            checkAnswerButton.addEventListener('click', () => {
+                const currentQuestionElement = questions[currentQuestion];
+                let isCorrect = false;
+                let feedback = '';
+                const radios = questions[currentQuestion].querySelectorAll('input[type="radio"]');
+
+                radios.forEach(radio => {
+                    const label = radio.nextElementSibling;
+                    const checkmark = label.querySelector('.checkmark');
+                    if (answers[currentQuestion].correct === radio.value) {
+                        if (radio.checked) {
+                            label.classList.add('correct');
+                            checkmark.textContent = '✔️';
+                        } else {
+                            label.classList.remove('incorrect');
+                            label.classList.add('correct');
+                            checkmark.textContent = '✔️';
+                        }
+                    } else if (radio.checked) {
+                        label.classList.add('incorrect');
+                        checkmark.textContent = '❌';
+                    }
+                });
+
+                if (currentQuestion === 0 || currentQuestion === 2) {
+                    const userAnswers = Array.from(currentQuestionElement.querySelectorAll('.drop-zone')).map(zone => zone.textContent.trim());
+
+                    isCorrect = answers[currentQuestion].correct.every((val, index) => val === userAnswers[index]);
+                    feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+                } else {
+                    const selectedAnswer = currentQuestionElement.querySelector('input[type="radio"]:checked');
+                    isCorrect = selectedAnswer && selectedAnswer.value === answers[currentQuestion].correct;
+                    feedback = isCorrect ? answers[currentQuestion].correctFeedback : answers[currentQuestion].wrongFeedback;
+                }
+
+                document.getElementById(`feedback${currentQuestion + 1}`).innerHTML = isCorrect
+                    ? `<div class="correct-feedback"><span class="feedback-icon">✔️</span>${answers[currentQuestion].correctFeedback}</div>`
+                    : `<div class="incorrect-feedback"><span class="feedback-icon">❌</span>${answers[currentQuestion].wrongFeedback}</div>`;
+
+                updateScore(isCorrect);
+
+                if (currentQuestion < questions.length - 1) {
+                    checkAnswerButton.style.display = 'none';
+                    nextButton.style.display = 'inline-block';
+                } else {
+                    checkAnswerButton.style.display = 'none';
+                    goToPrototypeButton.style.display = 'inline-block';
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    checkAnswerButton.style.display = 'inline-block';
+                    checkAnswerButton.disabled = true;
+                    nextButton.style.display = 'none';
+                }
+            });
+
+            showQuestion(currentQuestion);
+
+            goToPrototypeButton.addEventListener('click', () => {
+                window.location.href = 'prototypeLv4.html';
+            });
+        });
+    </script>
+</body>
+</html>

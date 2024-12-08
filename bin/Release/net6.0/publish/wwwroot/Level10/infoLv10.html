@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>תכנות 3 - שיעור API</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        #exerciseInfo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px; /* Adjust this value as needed */
+        }
+
+            #exerciseInfo p {
+                text-align: center;
+            }
+    </style>
+</head>
+<body>
+    <div id="exerciseInfo">
+        <h2>מידע על התרגיל</h2>
+        <p>כאן תוכל למצוא מידע נוסף על התרגיל שלך. זה יכול לכלול הוראות, תיאור הבעיה, וכדומה.</p>
+        <h2>מידע על לולאות</h2>
+        <p>תפקידן של הלולאות בקוד הן לעשות...</p>
+        <button type="button" class="btn btn-primary" onclick="navigateToQuestions()">לתרגול שאלות</button>
+    </div>
+
+    <script>
+        function navigateToQuestions() {
+            const islandName = 'Island 10';
+            initializeLevelScore(islandName);
+            window.location.href = 'infoQuestionLv10.html';
+        }
+
+        function initializeLevelScore(islandName) {
+            const levelKey = `${islandName}Score`;
+            if (!localStorage.getItem(levelKey)) {
+                localStorage.setItem(levelKey, 100); // Initialize score to 100 if not already set
+            }
+        }
+
+        // Initialize level score on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            const islandName = 'Island 10';
+            initializeLevelScore(islandName);
+        });
+    </script>
+</body>
+</html>

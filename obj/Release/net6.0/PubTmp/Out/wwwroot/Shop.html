@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>תכנות 3 - שיעור API</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        #shopContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px auto;
+            max-width: 800px; /* Adjust this value as needed */
+        }
+
+        .avatar-selection {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+            .avatar-selection img {
+                cursor: pointer;
+                width: 100px;
+                height: 100px;
+                border: 2px solid transparent;
+                border-radius: 50%;
+                opacity: 1;
+            }
+
+                .avatar-selection img.locked {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+
+                .avatar-selection img.selected {
+                    border-color: #007bff;
+                }
+    </style>
+</head>
+<body>
+    <div id="shopContainer">
+        <h2>בחר אווטאר</h2>
+        <div class="avatar-selection" id="avatarSelection">
+            <!-- Avatars will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        let userStars = 0; // To store the user's stars
+
+        function selectAvatar(element, avatarId, requiredStars) {
+            if (userStars < requiredStars) {
+                alert('You do not have enough stars to unlock this avatar.');
+                return;
+            }
+
+            // Remove 'selected' class from all avatars
+            document.querySelectorAll('.avatar-selection img').forEach(img => img.classList.remove('selected'));
+
+            // Add 'selected' class to the clicked avatar
+            element.classList.add('selected');
+
+            // Save selected avatar to the database
+            $.ajax({
+                url: '/api/user/avatar',
+                type: 'POST',
+                data: JSON.stringify({ avatarId: avatarId }),
+                contentType: 'application/json; charset=utf-8',
+                success: function () {
+                    // Navigate back to the homepage
+                    window.location.href = 'homepage.html';
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error updating avatar:", xhr, status, error);
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.error === "Not enough stars to unlock this avatar") {
+                        alert('You do not have enough stars to unlock this avatar.');
+                    } else {
+                        alert('Error updating avatar.');
+                    }
+                }
+            });
+        }
+
+        function loadAvatars() {
+            $.ajax({
+                url: '/api/user/homepage',
+                type: 'GET',
+                success: function (data) {
+                    userStars = data.stars;
+                    console.log("User stars:", userStars);
+
+                    $.ajax({
+                        url: '/api/user/avatars',
+                        type: 'GET',
+                        success: function (avatars) {
+                            console.log("Avatars loaded:", avatars);
+                            const avatarSelection = document.getElementById('avatarSelection');
+                            avatarSelection.innerHTML = ''; // Clear existing avatars
+                            avatars.forEach(avatar => {
+                                if (avatar.avatarName) {
+                                    console.log(`Avatar name: ${avatar.avatarName}`);
+                                    const img = document.createElement('img');
+                                    img.src = `/img/${avatar.avatarName}`; // Ensure the correct path to the images
+                                    img.alt = avatar.avatarName;
+                                    img.onerror = function () {
+                                        console.error(`Error loading image: ${this.src}`);
+                                        this.src = '/img/user.png';
+                                    }; // Handle missing images
+                                    img.setAttribute('data-id', avatar.avatarId);
+                                    img.setAttribute('data-required-stars', avatar.starsRequired || 0);
+
+                                    if (userStars < avatar.starsRequired) {
+                                        img.classList.add('locked');
+                                    } else {
+                                        img.onclick = function () { selectAvatar(this, avatar.avatarId, avatar.starsRequired); };
+                                    }
+
+                                    avatarSelection.appendChild(img);
+                                } else {
+                                    console.error("Avatar name is missing for avatar:", avatar);
+                                }
+                            });
+
+                            // Preselect the current avatar
+                            preselectAvatar();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error loading avatars:", xhr, status, error);
+                            alert('Error loading avatars.');
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading user data:", xhr, status, error);
+                    alert('Error loading user data.');
+                }
+            });
+        }
+
+        function preselectAvatar() {
+            $.ajax({
+                url: '/api/user/currentAvatar',
+                type: 'GET',
+                success: function (currentAvatarId) {
+                    console.log(`Current Avatar ID: ${currentAvatarId}`);
+                    const avatars = document.querySelectorAll('.avatar-selection img');
+                    avatars.forEach(img => {
+                        if (img.getAttribute('data-id') == currentAvatarId) {
+                            img.classList.add('selected');
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading current avatar:", xhr, status, error);
+                    alert('Error loading current avatar.');
+                }
+            });
+        }
+
+        // Load avatars on page load
+        window.onload = loadAvatars;
+    </script>
+</body>
+</html>

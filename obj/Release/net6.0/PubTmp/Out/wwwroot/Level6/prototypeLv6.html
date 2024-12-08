@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>תכנות 3 - שיעור API</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link href="../css/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="../css/styles.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/javascript.js"></script>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .stars {
+            text-align: center;
+            font-size: 2em;
+            color: gold;
+        }
+
+        .home-button {
+            display: block;
+            margin: 20px auto 0 auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+            .home-button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div id="TrinketNav">
+        <span>MindPlay</span>
+    </div>
+    <div id="iframe">
+        <iframe src="https://trinket.io/embed/python/56abbf170e" width="1000" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+    </div>
+
+    <div id="answerCheck">
+        <label for="userAnswer">הזן את תשובתך:</label>
+        <input type="text" id="userAnswer" name="userAnswer">
+        <button id="checkButton">בדוק תשובה</button>
+        <button class="tipButton" id="tipButton">עזרה</button>
+        <button id="openModalButton">פתח צ'אט</button>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>ChatGPT עזרה</h2>
+            <textarea id="chatGPTInput" rows="10" style="width: 100%;"></textarea>
+            <button id="sendToChatGPT">שלח</button>
+            <pre id="chatGPTOutput" style="margin-top: 20px; background: #f4f4f4; padding: 10px; border: 1px solid #ddd;"></pre>
+        </div>
+    </div>
+
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="feedbackClose">&times;</span>
+            <h2>תוצאה</h2>
+            <p id="feedbackMessage"></p>
+            <div id="starRating" class="stars"></div>
+            <button class="home-button" onclick="window.location.href='../homepage.html';">חזרה לדף הבית</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const modal = document.getElementById("myModal");
+            const btn = document.getElementById("openModalButton");
+            const span = document.getElementsByClassName("close")[0];
+            const feedbackModal = document.getElementById("feedbackModal");
+            const feedbackClose = document.getElementById("feedbackClose");
+            const feedbackMessage = document.getElementById("feedbackMessage");
+            const starRating = document.getElementById("starRating");
+
+            const maxScore = 40;
+            const minScore = 10;
+            let currentScore = maxScore;
+            const islandName = 'Island 6';
+            const correctAnswer = "1";
+
+            function updateScore(isCorrect) {
+                if (!isCorrect) {
+                    const penalty = (maxScore - minScore) / 5;
+                    currentScore = Math.max(minScore, currentScore - penalty);
+                }
+                console.log(`Updated score: ${currentScore}`);
+                const levelKey = `${islandName}ScoreCoding`;
+                localStorage.setItem(levelKey, currentScore);
+            }
+
+            function getTotalScore() {
+                const americanQuestionScore = parseInt(localStorage.getItem('Island 6ScoreAmerican')) || 0;
+                const codingChallengeScore = parseInt(localStorage.getItem('Island 6ScoreCoding')) || 0;
+                return americanQuestionScore + codingChallengeScore;
+            }
+
+            function showStarRating(score) {
+                let stars = 0;
+                if (score >= 90) {
+                    stars = 3;
+                } else if (score >= 60) {
+                    stars = 2;
+                } else {
+                    stars = 1;
+                }
+
+                starRating.innerHTML = '⭐'.repeat(stars);
+                console.log(`Star rating: ${stars} stars for score: ${score}`);
+
+                saveProgress(stars);
+            }
+
+            function saveProgress(stars) {
+                axios.post('/api/user/updateProgress', {
+                    level: 6,
+                    stars: stars
+                })
+                    .then(response => {
+                        console.log('Progress saved:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error saving progress:', error);
+                    });
+            }
+
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+                if (event.target == feedbackModal) {
+                    feedbackModal.style.display = "none";
+                }
+            }
+
+            $("#checkButton").click(function () {
+                const userAnswer = $("#userAnswer").val().trim();
+
+                if (userAnswer === correctAnswer) {
+                    feedbackMessage.textContent = "תשובה נכונה!";
+                    updateScore(true);
+                } else {
+                    feedbackMessage.textContent = "תשובה לא נכונה, נסה שוב.";
+                    updateScore(false);
+                }
+
+                const totalScore = getTotalScore();
+                showStarRating(totalScore);
+
+                feedbackModal.style.display = "block";
+            });
+
+            feedbackClose.onclick = function () {
+                feedbackModal.style.display = "none";
+            }
+
+            $("#tipButton").click(function () {
+                alert("נסה לבדוק את התחביר והלוגיקה שלך שוב.");
+            });
+
+            $("#sendToChatGPT").click(function () {
+                const codeInput = $("#chatGPTInput").val();
+
+                axios.post('/api/SyntaxCorrection/FixPythonSyntax', {
+                    code: codeInput
+                })
+                    .then(response => {
+                        const chatGPTResponse = response.data.correctedCode;
+                        $("#chatGPTOutput").text(chatGPTResponse);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        if (error.response) {
+                            alert(`Error: ${error.response.data}`);
+                        } else if (error.request) {
+                            alert('Error: No response received from the server.');
+                        } else {
+                            alert('Error: ' + error.message);
+                        }
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

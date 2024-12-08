@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>מיינדפלי - דף מידע ומקשים</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-image: url('/img/background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: 'Fredoka', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            width: 100%;
+            direction: ltr;
+        }
+
+            .header .nav-buttons {
+                display: flex;
+                gap: 20px;
+            }
+
+                .header .nav-buttons button {
+                    background-color: transparent;
+                    border: none;
+                    cursor: pointer;
+                    color: white;
+                    font-size: 18px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    transition: transform 0.3s;
+                }
+
+                    .header .nav-buttons button:hover {
+                        transform: scale(1.15);
+                    }
+
+                    .header .nav-buttons button img {
+                        width: 45px;
+                        height: 45px;
+                    }
+
+                    .header .nav-buttons button span {
+                        margin-top: 5px;
+                    }
+
+            .header .avatar {
+                display: flex;
+                align-items: center;
+            }
+
+                .header .avatar img {
+                    width: 85px;
+                    height: 85px;
+                    margin-left: 20px;
+                }
+
+                .header .avatar div {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                    .header .avatar div h4 {
+                        margin: 0;
+                        font-size: 18px;
+                    }
+
+                    .header .avatar div p {
+                        margin: 0;
+                        font-size: 16px;
+                    }
+
+                    .header .avatar div img {
+                        margin: 5px;
+                        width: 30px;
+                        height: 30px;
+                    }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .keyboard-image {
+            width: 70%;
+            max-width: 800px;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .explanation {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            text-align: right;
+            max-width: 800px;
+        }
+
+        .color-explanation {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .color-box {
+            width: 30px;
+            height: 30px;
+            margin-left: 10px;
+            border: 1px solid #000;
+        }
+
+        .tab-color {
+            background-color: #e8d3a9;
+        }
+
+        .backspace-color {
+            background-color: #e2df71;
+        }
+
+        .return-color {
+            background-color: #e6a869;
+        }
+
+        .space-color {
+            background-color: #d1c4a2;
+        }
+        .modal-custom-level1 {
+            background-color: #FAF9F5;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+            background-image: url('/img/questionMark.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 550px;
+        }
+
+            .modal-custom-level1 .close {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 24px;
+                font-weight: bold;
+                cursor: pointer;
+                color: #333;
+            }
+
+            .modal-custom-level1 h2 {
+                color: #F3C545;
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+
+        .back-button {
+            position: absolute;
+            top: 130px; /* Adjust this value to push the button below the header */
+            right: 50px; /* Position on the right side */
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+            .back-button img {
+                width: 60px; /* Adjust the size as needed */
+                height: 60px;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.location.href='homepage.html';">
+        <img src="/img/backArrow.png" alt="Back Arrow">
+    </button>
+
+    <!-- Header section -->
+    <div class="header">
+        <div class="avatar">
+            <img id="userAvatar" src="" alt="Pirate Icon">
+            <div style="padding-left:30px;">
+                <h4 id="username">Ofek Bacoushe</h4>
+                <p><img src="/img/GoldSackV1.png" alt="Gold Sack Icon"> <span id="starCount">10</span></p>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button onclick="window.location.href='Shop.html';">
+                <img src="/img/ShopIcon.png" alt="Shop Icon">
+                <span>דמויות</span>
+            </button>
+            <button onclick="window.location.href='mindplay_learn.html';">
+                <img src="/img/InfoIcon.png" alt="Info Icon">
+                <span>מידע</span>
+            </button>
+            <!-- New About Button -->
+            <button id="aboutButton" data-toggle="modal" data-target="#aboutModal">
+                <img src="/img/about.png" alt="About Icon">
+                <span>אודות</span>
+            </button>
+        </div>
+        <div class="title" style="text-align:right; display: flex; align-items: center; gap: 10px;">
+            <h2 style="color: #F3C545; margin: 0;">מערכת התרגול העצמית של מיינדפלי<br /><span style="font-size:20px; color:white;">לחצו על אי והתחילו לתרגל</span></h2>
+            <a style=" cursor: pointer; " onclick="window.location.href='homepage.html';">
+                <img src="/img/logowhite.png" alt="Logo" style="width: 70px; height: 70px;">
+            </a>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-custom-level1">
+                <span class="close" data-dismiss="modal" aria-label="Close">&times;</span>
+                <h2>אודות</h2>
+                <p style="font-weight:bold; font-size:18px;">מיינדפלי פיראטים</p>
+                <img src="/img/logo.png" alt="Logo" style="width: 150px; margin-bottom: 10px; align-self: center; ">
+                <p>פרוייקט גמר תשפ"ד הפקולטה לטכנולוגיות למידה</p>
+                <p>מערכת לתרגול ולמידה של תכנות בפייתון</p>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <img src="/img/HIT-logo.png" alt="HIT Logo" style="width: 180px;">
+                    <p>צוות הפרוייקט - פאנוס נדאו ואופק בקוש<br>מנחים - נטע שורק ועדי סילגי</p>
+                </div>
+                <p style="font-size: 12px; color: grey; direction:rtl;">כל הזכויות שמורות למכון טכנולוגי חולון HIT</p>
+                <p style="font-size: 12px; color: grey; direction: rtl;">במשחק זה נעשה שימוש באלמנטים שעוצבו על ידי FREEPIK Craiyon Flaticon</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Keyboard Image -->
+        <img src="/img/keyboard.png" alt="Keyboard Layout" class="keyboard-image">
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <div class="color-explanation">
+                <div class="color-box tab-color"></div>
+                Tab - משמש ליצירת רווח בכתיבת קוד פייתון, דבר שחשוב מאוד כדי ליצור לולאות ותנאים.
+            </div>
+            <div class="color-explanation">
+                <div class="color-box backspace-color"></div>
+                Backspace - מוחק את התו האחרון שהוזן. חשוב לשמור על מבנה הקוד כתוב בצורה נכונה.
+            </div>
+            <div class="color-explanation">
+                <div class="color-box return-color"></div>
+                Enter/Return - מאפשר הרצת קוד או מעבר לשורה הבאה.
+            </div>
+            <div class="color-explanation">
+                <div class="color-box space-color"></div>
+                Space - משמש אותנו להפריד בין תווים או מילים.
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer style="background-color: black; padding: 20px; text-align: center; width: 100%; position: fixed; bottom: 0; left: 0;">
+        <p style="color: #F3C545; font-size: 18px; margin: 0;">
+            תוצר זה פותח במסגרת פרויקט גמר לתואר ראשון בטכנולוגיות למידה, HIT |
+            <a href="https://www.hit.ac.il/academic/instructional-technologies/" target="_blank" style="color: #F3C545; text-decoration: underline;">
+                למידע נוסף
+            </a>
+        </p>
+    </footer>
+
+    <!-- Your necessary <script> block restored -->
+    <script>
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/home/getUserId'); // Adjust URL if needed
+                if (!response.ok) {
+                    throw new Error('User is not logged in');
+                }
+
+                const userId = await response.json();
+                if (!userId) {
+                    window.location.href = '/LogInPage.html'; // Redirect to login if no userId
+                }
+            } catch (error) {
+                window.location.href = '/LogInPage.html'; // Redirect to login page if fetch fails or no user
+            }
+        }
+
+        // Check login status immediately when the page loads
+        checkLoginStatus();
+
+        // Add the existing logic for fetching user data after login check
+        function fetchUserData() {
+            // Your existing user data fetch code
+        }
+
+        // Run fetchUserData after checking the login status
+        window.onload = fetchUserData;
+
+        function fetchUserData() {
+            $.ajax({
+                url: '/api/user/homepage', // Adjust this URL to your API endpoint
+                method: 'GET',
+                success: function (data) {
+                    // Update user info in the header
+                    $('#userAvatar').attr('src', `/img/${data.avatar}`);
+                    $('#username').text(data.username);
+                    $('#starCount').text(data.stars);
+
+                    // Load avatars
+                    loadAvatars(data.stars);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching user data:', error);
+                }
+            });
+        }
+
+        function loadAvatars(userStars) {
+            $.ajax({
+                url: '/api/user/avatars', // Adjust this URL to your API endpoint
+                method: 'GET',
+                success: function (avatars) {
+                    const avatarSelection = $('#avatarSelection');
+                    avatarSelection.empty(); // Clear existing avatars
+                    avatars.forEach(avatar => {
+                        const avatarWrapper = $('<div>')
+                            .addClass('avatar-wrapper')
+                            .addClass(userStars < avatar.starsRequired ? 'locked' : '');
+
+                        const img = $('<img>')
+                            .attr('src', `/img/${avatar.avatarName}`)
+                            .attr('alt', avatar.avatarName)
+                            .attr('data-id', avatar.avatarId)
+                            .attr('data-required-stars', avatar.starsRequired || 0)
+                            .on('error', function () {
+                                $(this).attr('src', '/img/user.png');
+                            });
+
+                        if (userStars < avatar.starsRequired) {
+                            const hoverText = $('<div>')
+                                .addClass('hover-text')
+                                .text(`תוכלו לבחור בדמות זו לאחר שתצברו ${avatar.starsRequired} שקי זהב`);
+                            avatarWrapper.append(hoverText);
+                        } else {
+                            img.click(function () {
+                                selectAvatar($(this), avatar.avatarId, avatar.starsRequired);
+                            });
+                        }
+
+                        avatarWrapper.append(img);
+                        avatarSelection.append(avatarWrapper);
+                    });
+
+                    // Preselect the current avatar
+                    preselectAvatar();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading avatars:', error);
+                }
+            });
+        }
+
+        // Load user data and avatars on page load
+        $(document).ready(fetchUserData);
+    </script>
+</body>
+</html>

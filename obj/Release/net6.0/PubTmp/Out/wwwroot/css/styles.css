@@ -1,0 +1,148 @@
+﻿body{
+    /*display:flex;
+    flex-wrap:wrap;
+    justify-content:center;*/
+    background-color:#F2F2F2;
+}
+
+.radio-group-subject {
+    display: inline-block;
+    margin-bottom:70px;
+}
+
+    .radio-group-subject label {
+        margin-right: 4.5vw;
+        width: 200px;
+        height: 170px;
+        cursor: pointer; /* Make the background clickable */
+        transition: transform 0.3s ease;
+    }
+    .radio-group-subject input[type="radio"] {
+        -webkit-appearance: none; /* Webkit browsers */
+    }
+    .radio-group-subject label:hover {
+        transform: scale(1.05); /* Enlarge the radio button on hover */
+    }
+
+.radio-characters {
+    display: inline-block;
+    margin-bottom: 40px;
+}
+    .radio-characters label {
+        margin-right: 12.7vw;
+        width: 120px;
+        height: 120px;
+        cursor: pointer; /* Make the background clickable */
+        transition: transform 0.3s ease;
+    }
+    .radio-characters input[type="radio"] {
+        -webkit-appearance: none; /* Webkit browsers */
+    }
+
+    .radio-characters label:hover {
+        transform: scale(1.05); /* Enlarge the radio button on hover */
+    }
+
+.radio-language {
+    display: inline-block;
+}
+    .radio-language label {
+        margin-right: 12.3vw;
+        width: 120px;
+        height: 120px;
+        cursor: pointer; /* Make the background clickable */
+        transition: transform 0.3s ease;
+    }
+
+    .radio-language input[type="radio"] {
+        -webkit-appearance: none; /* Webkit browsers */
+    }
+
+    .radio-language label:hover {
+        transform: scale(1.05); /* Enlarge the radio button on hover */
+    }
+
+.titleOptions {
+    text-align: center;
+    font-family: 'Suez One';
+    font-size: 23px;
+    color:#1b2753;
+}
+
+.darker-img {
+    filter: brightness(60%);
+    /* You can adjust the brightness percentage as needed */
+}
+
+.GenerateQuestions {
+    display:flex;
+    margin-right:1vw;
+    justify-content:center;
+}
+
+#Haktiviti {
+    gap: 2rem;
+    padding-top: 1%;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Suez One';
+    display: flex;
+    color: #505151;
+}
+
+#Bgraviti {
+    align-items: center;
+    justify-content: center;
+    font-family: Fredoka;
+    display: flex;
+    left: 42%;
+    position: relative;
+    bottom: 15px;
+}
+
+.box {
+    box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.2);
+    background-color: #E9EDF2;
+    width: 700px;
+    text-align: center;
+    position: relative;
+    left: 6%;
+    border-radius: 0.4rem;
+    color: #505151;
+    font-family: Fredoka;
+    font-size: 2rem;
+    font-family: 'Suez One';
+}
+
+#TrinketNav, #iframe, #answerCheck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px auto;
+    max-width: 1200px; /* Adjust this value as needed */
+}
+
+#TrinketNav {
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+
+}
+#iframe {
+    margin-top: 10px;
+}
+
+
+.tipButton:hover::after {
+    content: "טיפ: נסה לחפש בגוגל או לעיין במסמך הראשוני";
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    z-index: 1;
+    margin-top: -35px;
+    margin-left: 120px;
+}
