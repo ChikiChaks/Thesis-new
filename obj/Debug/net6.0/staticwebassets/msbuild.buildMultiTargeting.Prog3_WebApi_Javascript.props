@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Prog3_WebApi_Javascript.props" />
-</Project>

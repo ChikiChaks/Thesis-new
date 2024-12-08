@@ -1,0 +1,51 @@
+# Build Folders
+bin/
+obj/
+out/
+
+# Common Config Files
+appsettings*.json
+secrets.json
+
+# User-specific files
+*.user
+*.swp
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+*.tlog
+
+# Visual Studio-specific
+.vscode/
+.vs/
+*.vscode/
+*.sln.ide
+.idea/
+
+# Rider-specific
+.idea/
+
+# NuGet Packages
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Resharper
+*.DotSettings.user
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# Application Insights
+ApplicationInsights.config
+ApplicationInsights*.config
+
+# Azure Functions
+local.settings.json
